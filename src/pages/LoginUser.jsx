@@ -1,7 +1,7 @@
 import React from 'react'
 import TablaIN from '../components/TablaIN'
 
-function Login() {
+function LoginUser() {
   return (
     <div>
         <TablaIN/>
@@ -9,4 +9,4 @@ function Login() {
   )
 }
 
-export default Login
+export default LoginUser

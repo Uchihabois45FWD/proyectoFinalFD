@@ -1,0 +1,28 @@
+{
+    "users": [
+    {
+      "id": 1,
+      "name": "Usuario Demo",
+      "email": "user@demo.com",
+      "password": "123456",
+      "role": "user",
+      "createdAt": "2024-01-15T10:30:00Z"
+    },
+    {
+      "id": 2,
+      "name": "Administrador",
+      "email": "admin@sistema.com",
+      "password": "admin123",
+      "role": "admin",
+      "createdAt": "2024-01-10T08:00:00Z"
+    },
+    {
+      "id": 3,
+      "name": "María González",
+      "email": "maria@gmail.com",
+      "password": "maria456",
+      "role": "user",
+      "createdAt": "2024-01-20T14:15:00Z"
+    }
+  ]
+}

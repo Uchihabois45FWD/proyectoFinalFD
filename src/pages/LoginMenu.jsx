@@ -3,7 +3,9 @@ import LoginAndRegister from '../components/LoginAndRegister'
 
 function LoginMenu() {
   return (
-    <div>LoginAndRegister</div>
+    <div>
+      <LoginAndRegister />
+    </div>
   )
 }
 

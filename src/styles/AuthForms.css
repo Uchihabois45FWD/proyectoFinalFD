@@ -1,11 +1,14 @@
 :root{
-  --bg:#0f1724;
-  --accent:#ff7bdc;
-  --accent-2:#ffd86b;
-  --card:#ffffff;
-  --muted:#6b7280;
-  --radius:14px;
-  --transition:500ms cubic-bezier(.2,.8,.2,1);
+  --radius:16px;
+  --transition:200ms ease;
+  --card: #fff;
+  --muted: #9aa2ab;
+  --accent: #0073ff;
+  --accent-hover: #0059b3;
+  --accent-active: #004699;
+  --accent-disabled: #003366;
+  --accent-pressed: #002955;
+  --accent-pressed: #002955;
 }
 
 .auth-container{
@@ -16,6 +19,9 @@
   background:linear-gradient(180deg, rgba(4,6,11,0.85), rgba(8,10,16,0.85));
   padding:32px;
   box-sizing:border-box;
+  position:relative;
+  overflow:hidden;
+  z-index:0;
 }
 
 .auth-wrapper{

@@ -1,5 +1,5 @@
 {
-    "users": [
+  "users": [
     {
       "id": 1,
       "name": "Usuario Demo",
@@ -23,6 +23,14 @@
       "password": "maria456",
       "role": "user",
       "createdAt": "2024-01-20T14:15:00Z"
+    },
+    {
+      "id": "4b88",
+      "name": "Adrian Campos Cisneros",
+      "email": "adriancamposcisnero@gmail.com",
+      "password": "2070603",
+      "role": "user",
+      "createdAt": "2025-09-23T19:39:34.037Z"
     }
   ]
 }

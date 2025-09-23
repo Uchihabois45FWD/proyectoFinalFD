@@ -1,30 +1,30 @@
 import React, { useState } from "react";
 import { User, Mail, Lock, Eye, EyeOff, ArrowLeft } from "lucide-react";
-
+import "../styles/AuthForms.css";
 function RegisterForm({
-  registerData,
-  showPassword,
-  showConfirmPassword,
-  loading,
-  message,
-  onChange,
-  onSubmit,
-  onTogglePassword,
-  onToggleConfirmPassword,
-  onSwitchToLogin,
+  registerData = { name: "", email: "", password: "", confirmPassword: "" },
+  showPassword = false,
+  showConfirmPassword = false,
+  loading = false,
+  message = null,
+  onChange = () => {},
+  onSubmit = () => {},
+  onTogglePassword = () => {},
+  onToggleConfirmPassword = () => {},
+  onSwitchToLogin = () => {},
 }) {
   const [touched, setTouched] = useState({ name: false, email: false, password: false, confirmPassword: false });
   const errors = {
-    name: registerData.name ? "" : "Ingresa tu nombre",
-    email: registerData.email ? "" : "Ingresa tu correo",
-    password: !registerData.password
+    name: registerData?.name ? "" : "Ingresa tu nombre",
+    email: registerData?.email ? "" : "Ingresa tu correo",
+    password: !registerData?.password
       ? "Ingresa una contraseña"
-      : registerData.password.length < 6
+      : registerData?.password.length < 6
       ? "Debe tener al menos 6 caracteres"
       : "",
     confirmPassword:
-      registerData.confirmPassword
-        ? registerData.password !== registerData.confirmPassword
+      registerData?.confirmPassword
+        ? registerData?.password !== registerData?.confirmPassword
           ? "Las contraseñas no coinciden"
           : ""
         : "Confirma tu contraseña",
@@ -56,7 +56,7 @@ function RegisterForm({
               type="text"
               name="name"
               placeholder="Nombre completo"
-              value={registerData.name}
+              value={registerData?.name || ""}
               onChange={onChange}
               onBlur={handleBlur}
               disabled={loading}
@@ -73,7 +73,7 @@ function RegisterForm({
               type="email"
               name="email"
               placeholder="Correo electrónico"
-              value={registerData.email}
+              value={registerData?.email || ""}
               onChange={onChange}
               onBlur={handleBlur}
               disabled={loading}
@@ -90,7 +90,7 @@ function RegisterForm({
               type={showPassword ? "text" : "password"}
               name="password"
               placeholder="Contraseña"
-              value={registerData.password}
+              value={registerData?.password || ""}
               onChange={onChange}
               onBlur={handleBlur}
               disabled={loading}
@@ -115,7 +115,7 @@ function RegisterForm({
               type={showConfirmPassword ? "text" : "password"}
               name="confirmPassword"
               placeholder="Confirmar contraseña"
-              value={registerData.confirmPassword}
+              value={registerData?.confirmPassword || ""}
               onChange={onChange}
               onBlur={handleBlur}
               disabled={loading}
@@ -158,3 +158,4 @@ function RegisterForm({
 }
 
 export default RegisterForm;
+

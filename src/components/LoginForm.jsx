@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { User, Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
-
+import "../styles/AuthForms.css";
 function LoginForm({
-  loginData,
-  showPassword,
-  loading,
-  message,
-  onChange,
-  onSubmit,
-  onTogglePassword,
-  onSwitchToRegister,
+  loginData = { email: "", password: "" },
+  showPassword = false,
+  loading = false,
+  message = null,
+  onChange = () => {},
+  onSubmit = () => {},
+  onTogglePassword = () => {},
+  onSwitchToRegister = () => {},
 }) {
   const [touched, setTouched] = useState({ email: false, password: false });
   const errors = {
-    email: loginData.email ? "" : "Ingresa tu correo",
-    password: loginData.password ? "" : "Ingresa tu contraseña",
+    email: loginData?.email ? "" : "Ingresa tu correo",
+    password: loginData?.password ? "" : "Ingresa tu contraseña",
   };
   const handleBlur = (e) => {
     const { name } = e.target;
@@ -47,7 +47,7 @@ function LoginForm({
               type="email"
               name="email"
               placeholder="Correo electrónico"
-              value={loginData.email}
+              value={loginData?.email || ""}
               onChange={onChange}
               onBlur={handleBlur}
               disabled={loading}
@@ -64,7 +64,7 @@ function LoginForm({
               type={showPassword ? "text" : "password"}
               name="password"
               placeholder="Contraseña"
-              value={loginData.password}
+              value={loginData?.password || ""}
               onChange={onChange}
               onBlur={handleBlur}
               disabled={loading}
@@ -107,3 +107,4 @@ function LoginForm({
 }
 
 export default LoginForm;
+

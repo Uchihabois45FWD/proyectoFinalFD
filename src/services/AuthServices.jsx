@@ -106,9 +106,18 @@ export const authService = {
     return user && user.role === 'admin';
   },
 
-  // Verificar si es usuario normal
   isUser() {
     const user = this.getCurrentUser();
     return user && user.role === 'user';
+  },
+
+  // Ajusta los correos permitidos según necesidad
+  isCollaborator() {
+    const user = this.getCurrentUser();
+    if (!user || !user.email) return false;
+    const allowedCollaborators = [
+      'sweetspotCR@gmail.com'
+    ];
+    return allowedCollaborators.includes(String(user.email).toLowerCase());
   }
 };

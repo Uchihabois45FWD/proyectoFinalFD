@@ -31,6 +31,14 @@
       "password": "2070603",
       "role": "user",
       "createdAt": "2025-09-23T19:39:34.037Z"
+    },
+    {
+      "id": 4,
+      "name": "Colaborador",
+      "email": "sweetspotCR@gmail.com",
+      "password": "Colab!2025",
+      "role": "user",
+      "createdAt": "2025-09-24T16:43:25.000Z"
     }
   ]
 }

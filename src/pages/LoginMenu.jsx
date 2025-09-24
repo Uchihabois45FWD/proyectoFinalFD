@@ -36,8 +36,10 @@ function LoginMenu() {
       const result = await authService.login(email, password)
       if (result.success) {
         setMessage({ text: result.message || 'Inicio de sesión exitoso.' })
-        // Navegar según rol
-        if (result.user?.role === 'admin') {
+        // Navegar según rol/correo
+        if (authService.isCollaborator()) {
+          navigate('/Colab')
+        } else if (result.user?.role === 'admin') {
           navigate('/Admin')
         } else {
           navigate('/Users')

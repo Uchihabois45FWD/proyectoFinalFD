@@ -4,6 +4,7 @@ import LoginMenu from '../pages/LoginMenu'
 import Admin from '../pages/Admin'
 import Users from '../pages/Users'
 import { authService } from '../services/AuthServices'
+import Colab from '../pages/colab'
 
 function Routing() {
   // Wrappers de protección
@@ -23,6 +24,12 @@ function Routing() {
       : <Navigate to="/" replace />
   }
 
+  const CollaboratorRoute = ({ children }) => {
+    return authService.isAuthenticated() && authService.isCollaborator()
+      ? children
+      : <Navigate to="/" replace />
+  }
+
   return (
     <Router>
       <Routes>
@@ -36,6 +43,11 @@ function Routing() {
           <UserRoute>
             <Users />
           </UserRoute>
+        } />
+        <Route path="/Colab" element={
+          <CollaboratorRoute>
+            <Colab />
+          </CollaboratorRoute>
         } />
       </Routes>
     </Router>

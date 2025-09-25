@@ -6,14 +6,12 @@ import "../styles/overlays.css"
 import { authService } from '../services/AuthServices'
 
 function LoginMenu() {
-  const [mode, setMode] = useState('login') // 'login' | 'register'
+  const [mode, setMode] = useState('login') 
   const navigate = useNavigate()
 
-  // Shared UI state
   const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState(null) // { text: string }
+  const [message, setMessage] = useState(null) 
 
-  // Login form state
   const [loginData, setLoginData] = useState({ email: '', password: '' })
   const [showLoginPassword, setShowLoginPassword] = useState(false)
 
@@ -32,11 +30,10 @@ function LoginMenu() {
         setMessage({ text: 'Completa tu correo y contraseña.' })
         return
       }
-      // Llamada real a servicio de login (axios/json-server)
+    
       const result = await authService.login(email, password)
       if (result.success) {
         setMessage({ text: result.message || 'Inicio de sesión exitoso.' })
-        // Navegar según rol/correo
         if (authService.isCollaborator()) {
           navigate('/Colab')
         } else if (result.user?.role === 'admin') {
@@ -52,7 +49,6 @@ function LoginMenu() {
     }
   }
 
-  // Register form state
   const [registerData, setRegisterData] = useState({ name: '', email: '', password: '', confirmPassword: '' })
   const [showRegPassword, setShowRegPassword] = useState(false)
   const [showRegConfirmPassword, setShowRegConfirmPassword] = useState(false)
@@ -80,7 +76,7 @@ function LoginMenu() {
         setMessage({ text: 'Las contraseñas no coinciden.' })
         return
       }
-      // Llamada real al servicio de registro (axios/json-server)
+
       const result = await authService.register({ name, email, password })
       if (result.success) {
         setMessage({ text: result.message || 'Cuenta creada con éxito. Ahora inicia sesión.' })
@@ -122,7 +118,6 @@ function LoginMenu() {
         />
       )}
 
-      {/* Overlays */}
       <div className={`overlay overlay--login ${mode === 'register' ? 'overlay--active' : ''}`}>
         <div className="overlay-content">
           <div className="overlay-icon">←</div>

@@ -1,0 +1,11 @@
+.events-page { padding: 16px; }
+.events-form { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+.events-input { padding: 8px 10px; border: 1px solid #e5e7eb; border-radius: 6px; min-width: 220px; }
+.events-btn { padding: 8px 12px; border-radius: 6px; border: 1px solid #e5e7eb; background: #f8fafc; cursor: pointer; }
+.events-message { padding: 8px 10px; border-radius: 6px; margin: 8px 0; }
+.events-message--error { color: #991b1b; background: #fee2e2; border: 1px solid #fecaca; }
+.events-message--success { color: #065f46; background: #ecfdf5; border: 1px solid #a7f3d0; }
+.events-table-wrapper { overflow-x: auto; border: 1px solid #e5e7eb; border-radius: 8px; }
+.events-table { width: 100%; border-collapse: collapse; min-width: 760px; }
+.events-th { text-align: left; padding: 10px 12px; border-bottom: 1px solid #e5e7eb; font-weight: 600; font-size: 14px; background: #f9fafb; }
+.events-td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }

@@ -1,0 +1,5 @@
+.approved-events { padding: 16px; }
+.approved-table-wrapper { overflow-x: auto; border: 1px solid #e5e7eb; border-radius: 8px; }
+.approved-table { width: 100%; border-collapse: collapse; min-width: 720px; }
+.approved-th { text-align: left; padding: 10px 12px; border-bottom: 1px solid #e5e7eb; font-weight: 600; font-size: 14px; background: #f9fafb; }
+.approved-td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }

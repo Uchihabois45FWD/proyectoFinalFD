@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { authService } from '../services/AuthServices.jsx'
 
 function Users() {
@@ -22,12 +22,15 @@ function Users() {
 
   return (
     <div style={{ padding: 24 }}>
-      <h1>Zona de Usuarios</h1>
+      <h1>Perfil</h1>
       {user && (
         <p>
           Bienvenido{user.name ? `, ${user.name}` : ''}. Rol: <strong>{user.role}</strong>
         </p>
       )}
+      <div style={{ margin: '12px 0' }}>
+        <Link to="/Approved-Events">Ver eventos aprobados</Link>
+      </div>
       <button onClick={handleLogout}>Cerrar sesión</button>
     </div>
   )

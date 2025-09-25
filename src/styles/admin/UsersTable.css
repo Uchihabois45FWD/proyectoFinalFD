@@ -1,0 +1,9 @@
+.users-section { padding: 4px 0; }
+.users-section__title { margin: 12px 0; }
+.table-wrapper { overflow-x: auto; border: 1px solid #e5e7eb; border-radius: 8px; }
+.table { width: 100%; border-collapse: collapse; min-width: 720px; }
+.thead-row { background: #f9fafb; }
+.th { text-align: left; padding: 10px 12px; border-bottom: 1px solid #e5e7eb; font-weight: 600; font-size: 14px; }
+.td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+.btn { margin-right: 8px; padding: 6px 10px; border-radius: 6px; border: 1px solid #e5e7eb; background: #f8fafc; cursor: pointer; }
+.btn--danger { background: #fee2e2; border-color: #fecaca; color: #b91c1c; }

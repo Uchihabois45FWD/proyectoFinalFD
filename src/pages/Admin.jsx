@@ -1,6 +1,12 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { authService } from '../services/AuthServices.jsx'
+import Sidebar from '../components/Admin/Sidebar'
+import Header from '../components/Admin/Header'
+import StatsCards from '../components/Admin/StatsCards'
+import UsersTable from '../components/Admin/UsersTable'
+import EventsPanel from '../components/Admin/EventsPanel'
+import '../styles/admin/Admin.css'
 
 function Admin() {
   const navigate = useNavigate()
@@ -12,16 +18,17 @@ function Admin() {
     }
   }, [navigate])
 
-  const handleLogout = () => {
-    authService.logout()
-    navigate('/')
-  }
-
   return (
-    <div style={{ padding: 24 }}>
-      <h1>Panel de Administrador</h1>
-      <p>Has iniciado sesión como administrador.</p>
-      <button onClick={handleLogout}>Cerrar sesión</button>
+    <div className="admin-app">
+      <Sidebar />
+      <main className="admin-main">
+        <Header />
+        <div className="admin-content">
+          <StatsCards />
+          <UsersTable />
+          <EventsPanel />
+        </div>
+      </main>
     </div>
   )
 }

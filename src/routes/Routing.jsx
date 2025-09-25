@@ -5,9 +5,12 @@ import Admin from '../pages/Admin'
 import Users from '../pages/Users'
 import { authService } from '../services/AuthServices'
 import Colab from '../pages/colab'
+import Events from '../components/events/Events'
+import ApprovedEvents from '../components/events/ApprovedEvents'
+import EventDetail from '../components/events/EventDetail'
+import AppLayout from '../components/AppLayout'
 
 function Routing() {
-  // Wrappers de protección
   const ProtectedRoute = ({ children }) => {
     return authService.isAuthenticated() ? children : <Navigate to="/" replace />
   }
@@ -19,7 +22,7 @@ function Routing() {
   }
 
   const UserRoute = ({ children }) => {
-    return authService.isAuthenticated() && authService.isUser()
+    return authService.isAuthenticated() && (authService.isUser() || authService.isCollaborator())
       ? children
       : <Navigate to="/" replace />
   }
@@ -36,18 +39,45 @@ function Routing() {
         <Route path="/" element={<LoginMenu />} />
         <Route path="/Admin" element={
           <AdminRoute>
-            <Admin />
+            <AppLayout>
+              <Admin />
+            </AppLayout>
           </AdminRoute>
         } />
         <Route path="/Users" element={
           <UserRoute>
-            <Users />
+            <AppLayout>
+              <Users />
+            </AppLayout>
           </UserRoute>
         } />
         <Route path="/Colab" element={
           <CollaboratorRoute>
-            <Colab />
+            <AppLayout>
+              <Colab />
+            </AppLayout>
           </CollaboratorRoute>
+        } />
+        <Route path="/Events" element={
+          <ProtectedRoute>
+            <AppLayout>
+              <Events />
+            </AppLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/Approved-Events" element={
+          <AdminRoute>
+            <AppLayout>
+              <ApprovedEvents />
+            </AppLayout>
+          </AdminRoute>
+        } />
+        <Route path="/Events/:id" element={
+          <ProtectedRoute>
+            <AppLayout>
+              <EventDetail />
+            </AppLayout>
+          </ProtectedRoute>
         } />
       </Routes>
     </Router>

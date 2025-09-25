@@ -1,15 +1,7 @@
 {
   "users": [
     {
-      "id": 1,
-      "name": "Usuario Demo",
-      "email": "user@demo.com",
-      "password": "123456",
-      "role": "user",
-      "createdAt": "2024-01-15T10:30:00Z"
-    },
-    {
-      "id": 2,
+      "id": "2",
       "name": "Administrador",
       "email": "admin@sistema.com",
       "password": "admin123",
@@ -17,28 +9,36 @@
       "createdAt": "2024-01-10T08:00:00Z"
     },
     {
-      "id": 3,
-      "name": "María González",
-      "email": "maria@gmail.com",
-      "password": "maria456",
-      "role": "user",
-      "createdAt": "2024-01-20T14:15:00Z"
+      "id": "4",
+      "name": "Colaborador",
+      "email": "sweetspotCR@gmail.com",
+      "password": "Colab!2025",
+      "role": "colab",
+      "createdAt": "2025-09-24T16:43:25.000Z"
     },
     {
-      "id": "4b88",
+      "id": "0b39",
       "name": "Adrian Campos Cisneros",
       "email": "adriancamposcisnero@gmail.com",
       "password": "2070603",
       "role": "user",
-      "createdAt": "2025-09-23T19:39:34.037Z"
+      "createdAt": "2025-09-25T14:47:56.141Z"
+    }
+  ],
+  "events": [
+    {
+      "id": "1",
+      "title": "No Jhons 12",
+      "date": "2025-09-26T15:00:00.000Z",
+      "requester": "sweetspotCR@gmail.com",
+      "status": "approved"
     },
     {
-      "id": 4,
-      "name": "Colaborador",
-      "email": "sweetspotCR@gmail.com",
-      "password": "Colab!2025",
-      "role": "user",
-      "createdAt": "2025-09-24T16:43:25.000Z"
+      "id": "2",
+      "title": "Evento Geek",
+      "date": "2025-09-27T18:30:00.000Z",
+      "requester": "connecturday@gmail.com",
+      "status": "approved"
     }
   ]
 }

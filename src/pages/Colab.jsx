@@ -8,7 +8,6 @@ function Colab() {
 
   useEffect(() => {
     const u = authService.getCurrentUser()
-    // Permitir acceso solo si es colaborador por correo
     if (!u || !authService.isCollaborator()) {
       navigate('/')
     } else {

@@ -1,0 +1,3 @@
+.admin-app { display: flex; min-height: 100vh; background: #f8fafc; }
+.admin-main { flex: 1; display: flex; flex-direction: column; }
+.admin-content { padding: 16px; display: flex; flex-direction: column; gap: 16px; }

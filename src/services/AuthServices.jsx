@@ -114,5 +114,14 @@ export const authService = {
   isCollaborator() {
     const user = this.getCurrentUser();
     return user && user.role === 'colab';
+  },
+
+  // Actualizar usuario (por ejemplo, savedEvents) y refrescar localStorage
+  async updateUser(updatedUser) {
+    if (!updatedUser || !updatedUser.id) throw new Error('Usuario inválido para actualizar');
+    const res = await api.put(`/users/${updatedUser.id}`, updatedUser);
+    const user = res.data;
+    localStorage.setItem('authUser', JSON.stringify(user));
+    return user;
   }
 };

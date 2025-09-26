@@ -169,7 +169,7 @@ export default function EventForm({ event, onSave, onCancel }) {
           <div className="form-group map-container">
             <label>Ubicación en el mapa</label>
             <div style={{ height: '300px', width: '100%', marginTop: 10 }}>
-              <MapContainer center={[19.4326, -99.1332]} zoom={13} style={{ height: '100%', width: '100%' }}>
+              <MapContainer center={[9.9281, -84.0907]} zoom={13} style={{ height: '100%', width: '100%' }}>
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; OpenStreetMap contributors' />
                 <ClickCatcher onSelect={handleMapSelect} />
                 {Array.isArray(formData.location.coordinates) && formData.location.coordinates.length === 2 && (
@@ -199,7 +199,7 @@ export default function EventForm({ event, onSave, onCancel }) {
         </div>
 
         <div className="form-group">
-          <label>Costo de inscripción (MXN)</label>
+          <label>Costo de inscripción (colones costarricenses)</label>
           <input type="number" name="price" min={0} step={0.01} value={formData.price} onChange={handleChange} />
         </div>
 

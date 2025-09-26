@@ -72,11 +72,8 @@ function EventsPanel() {
   }
 
   const handleDuplicate = (ev) => {
-    const copy = { ...ev }
-    delete copy.id
-    copy.title = `${copy.title || 'Evento'} (Copia)`
-    setCurrentEvent(copy)
-    setShowForm(true)
+    // Duplicar deshabilitado para evitar creación desde Admin
+    alert('La duplicación de eventos está deshabilitada en el panel de administrador.')
   }
 
   const handleDelete = async (id) => {
@@ -92,10 +89,11 @@ function EventsPanel() {
 
   const handleSave = async (data) => {
     try {
+      // En Admin solo se permite actualizar eventos existentes, no crear nuevos
       if (currentEvent && currentEvent.id) {
         await eventsService.update(currentEvent.id, { ...currentEvent, ...data })
       } else {
-        await eventsService.create({ status: 'pending', ...data })
+        alert('La creación de eventos no está permitida desde el panel de administrador.')
       }
       setShowForm(false)
       setCurrentEvent(null)
@@ -132,7 +130,6 @@ function EventsPanel() {
             <option value="rejected">Rechazados</option>
             <option value="all">Todos</option>
           </select>
-          <button className="btn btn--primary" onClick={() => { setCurrentEvent(null); setShowForm(true) }}>Nuevo Evento</button>
         </div>
       </div>
       <div className="table-wrapper">

@@ -18,7 +18,7 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-      <div className="navbar__brand" onClick={() => navigate(isAdmin ? '/Approved-Events' : '/Events')} role="button" tabIndex={0}>
+      <div className="navbar__brand" onClick={() => navigate(isAdmin ? '/Admin' : '/Events')} role="button" tabIndex={0}>
         <span className="navbar__logo">🎟️</span>
         <span className="navbar__title">Eventos</span>
       </div>
@@ -27,19 +27,23 @@ function Navbar() {
         {isAuth && (
           <>
             {isAdmin && (
-              <NavLink to="/Approved-Events" className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`}>Aprobados</NavLink>
+              <>
+                <NavLink to="/Admin#users" className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`}>Usuarios</NavLink>
+                <NavLink to="/Admin#collaborators" className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`}>Colaboradores</NavLink>
+                <NavLink to="/Admin#events" className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`}>Eventos</NavLink>
+              </>
             )}
-            {isAdmin && (
-              <NavLink to="/Admin" className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`}>Admin</NavLink>
+            {isUser && !isAdmin && !isColab && (
+              <>
+                <NavLink to="/Events" className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`}>Eventos</NavLink>
+                <NavLink to="/Users" className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`}>Perfil</NavLink>
+                <NavLink to="/Calendar" className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`}>Calendario</NavLink>
+              </>
             )}
-            {isUser && (
-              <NavLink to="/Users" className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`}>Perfil</NavLink>
-            )}
-            {isUser && (
-              <NavLink to="/Events" className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`}>Calendario</NavLink>
-            )}
-            {isColab && (
-              <NavLink to="/Colab" className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`}>Colaborador</NavLink>
+            {isColab && !isAdmin && (
+              <>
+                <NavLink to="/Colab" className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`}>Crear eventos</NavLink>
+              </>
             )}
           </>
         )}

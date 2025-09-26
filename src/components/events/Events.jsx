@@ -4,13 +4,9 @@ import { eventsService } from '../../services/EventsService.jsx'
 import '../../styles/events/Events.css'
 
 function Events() {
-  const [form, setForm] = useState({ title: '', date: '' })
-  const [submitting, setSubmitting] = useState(false)
-  const [message, setMessage] = useState(null)
   const [rows, setRows] = useState([])
   const [loading, setLoading] = useState(true)
   const isUser = authService.isUser()
-  const isColab = authService.isCollaborator()
   const [filters, setFilters] = useState({ q: '', from: '', to: '' })
 
   const load = async () => {
@@ -29,50 +25,7 @@ function Events() {
     load()
   }, [])
 
-  const onChange = (e) => {
-    const { name, value } = e.target
-    setForm(prev => ({ ...prev, [name]: value }))
-  }
-
-  const onSubmit = async (e) => {
-    e.preventDefault()
-    setSubmitting(true)
-    setMessage(null)
-    try {
-      const user = authService.getCurrentUser()
-      if (!user) {
-        setMessage({ type: 'error', text: 'Debes iniciar sesión.' })
-        return
-      }
-      if (!isColab) {
-        setMessage({ type: 'error', text: 'Solo los colaboradores pueden crear eventos.' })
-        return
-      }
-      if (!form.title || !form.date) {
-        setMessage({ type: 'error', text: 'Completa título y fecha.' })
-        return
-      }
-      const payload = {
-        title: form.title,
-        date: new Date(form.date).toISOString(),
-        requester: user.email,
-        status: 'pending'
-      }
-      const created = await eventsService.create(payload)
-      if (created && created.id != null) {
-        setMessage({ type: 'success', text: 'Evento creado correctamente.' })
-        setForm({ title: '', date: '' })
-        await load()
-      } else {
-        setMessage({ type: 'error', text: 'No se pudo crear el evento.' })
-      }
-    } catch (e) {
-      console.error('Error creando evento:', e)
-      setMessage({ type: 'error', text: 'Error de red al crear evento.' })
-    } finally {
-      setSubmitting(false)
-    }
-  }
+  // La creación de eventos ahora está disponible sólo en la página de Colaboradores (/Colab)
 
   const onFilterChange = (e) => {
     const { name, value } = e.target
@@ -107,29 +60,6 @@ function Events() {
   return (
     <div className="events-page">
       <h1>Eventos</h1>
-      {isColab && (
-        <form onSubmit={onSubmit} className="events-form">
-          <input
-            name="title"
-            value={form.title}
-            onChange={onChange}
-            placeholder="Título del evento"
-            className="events-input"
-            disabled={submitting}
-          />
-          <input
-            type="datetime-local"
-            name="date"
-            value={form.date}
-            onChange={onChange}
-            className="events-input"
-            disabled={submitting}
-          />
-          <button type="submit" disabled={submitting} className="events-btn">
-            {submitting ? 'Creando...' : 'Crear Evento'}
-          </button>
-        </form>
-      )}
       {isUser && (
         <div className="events-filters">
           <input
@@ -155,11 +85,6 @@ function Events() {
             onChange={onFilterChange}
             className="events-input"
           />
-        </div>
-      )}
-      {message?.text && (
-        <div className={`events-message ${message.type === 'error' ? 'events-message--error' : 'events-message--success'}`}>
-          {message.text}
         </div>
       )}
 

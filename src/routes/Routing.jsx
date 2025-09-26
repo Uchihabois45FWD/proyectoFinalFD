@@ -9,6 +9,7 @@ import Events from '../components/events/Events'
 import ApprovedEvents from '../components/events/ApprovedEvents'
 import EventDetail from '../components/events/EventDetail'
 import AppLayout from '../components/AppLayout'
+import Calendar from '../pages/Calendar'
 
 function Routing() {
   const ProtectedRoute = ({ children }) => {
@@ -48,6 +49,13 @@ function Routing() {
           <UserRoute>
             <AppLayout>
               <Users />
+            </AppLayout>
+          </UserRoute>
+        } />
+        <Route path="/Calendar" element={
+          <UserRoute>
+            <AppLayout>
+              <Calendar />
             </AppLayout>
           </UserRoute>
         } />

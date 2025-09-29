@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { authService } from '../services/AuthServices.jsx'
-import Sidebar from '../components/Admin/Sidebar'
 import Header from '../components/Admin/Header'
 import StatsCards from '../components/Admin/StatsCards'
 import UsersTable from '../components/Admin/UsersTable'
@@ -20,7 +19,6 @@ function Admin() {
 
   return (
     <div className="admin-app">
-      <Sidebar />
       <main className="admin-main">
         <Header />
         <div className="admin-content">

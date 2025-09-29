@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { eventsService } from '../../services/EventsService.jsx'
+import '../../styles/events/Events.css'
 
 function EventDetail() {
   const { id } = useParams()
@@ -25,20 +26,22 @@ function EventDetail() {
     load()
   }, [id])
 
-  if (loading) return <div style={{ padding: 16 }}>Cargando evento...</div>
-  if (error) return <div style={{ padding: 16, color: '#b91c1c' }}>{error}</div>
-  if (!event) return <div style={{ padding: 16 }}>Evento no encontrado</div>
+  if (loading) return <div className="event-detail-loading">Cargando evento...</div>
+  if (error) return <div className="event-detail-error">{error}</div>
+  if (!event) return <div className="event-detail-not-found">Evento no encontrado</div>
 
   return (
-    <div style={{ padding: 16 }}>
-      <h1>Detalle del evento</h1>
-      <p><strong>ID:</strong> {event.id}</p>
-      <p><strong>Título:</strong> {event.title || '(Sin título)'}</p>
-      <p><strong>Fecha:</strong> {event.date ? new Date(event.date).toLocaleString() : '-'}</p>
-      <p><strong>Solicitante:</strong> {event.requester || '-'}</p>
-      <p><strong>Estado:</strong> {event.status || 'pending'}</p>
-      <div style={{ marginTop: 12 }}>
-        <Link to="/Approved-Events">Volver a eventos aprobados</Link>
+    <div className="event-detail">
+      <h1 className="event-detail-title">Detalle del evento</h1>
+      <div className="event-detail-content">
+        <p className="event-detail-item"><strong>ID:</strong> {event.id}</p>
+        <p className="event-detail-item"><strong>Título:</strong> {event.title || '(Sin título)'}</p>
+        <p className="event-detail-item"><strong>Fecha:</strong> {event.date ? new Date(event.date).toLocaleString() : '-'}</p>
+        <p className="event-detail-item"><strong>Solicitante:</strong> {event.requester || '-'}</p>
+        <p className="event-detail-item"><strong>Estado:</strong> {event.status || 'pending'}</p>
+      </div>
+      <div className="event-detail-actions">
+        <Link to="/Approved-Events" className="event-detail-link">Volver a eventos aprobados</Link>
       </div>
     </div>
   )

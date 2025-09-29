@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import LoginForm from '../components/LoginForm'
 import RegisterForm from '../components/RegisterForm'
 import "../styles/overlays.css"
-import { authService } from '../services/AuthServices'
+import { authService } from '../services/AuthServices.jsx'
 
 function LoginMenu() {
   const [mode, setMode] = useState('login') 
@@ -49,7 +49,16 @@ function LoginMenu() {
     }
   }
 
-  const [registerData, setRegisterData] = useState({ name: '', email: '', password: '', confirmPassword: '' })
+  const [registerData, setRegisterData] = useState({
+    name: '',
+    lastName: '',
+    secondLastName: '',
+    phone: '',
+    idNumber: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  })
   const [showRegPassword, setShowRegPassword] = useState(false)
   const [showRegConfirmPassword, setShowRegConfirmPassword] = useState(false)
 
@@ -63,7 +72,7 @@ function LoginMenu() {
     setLoading(true)
     setMessage(null)
     try {
-      const { name, email, password, confirmPassword } = registerData
+      const { name, lastName, secondLastName, phone, idNumber, email, password, confirmPassword } = registerData
       if (!name || !email || !password || !confirmPassword) {
         setMessage({ text: 'Completa todos los campos.' })
         return
@@ -77,7 +86,7 @@ function LoginMenu() {
         return
       }
 
-      const result = await authService.register({ name, email, password })
+      const result = await authService.register({ name, lastName, secondLastName, phone, idNumber, email, password })
       if (result.success) {
         setMessage({ text: result.message || 'Cuenta creada con éxito. Ahora inicia sesión.' })
         setMode('login')

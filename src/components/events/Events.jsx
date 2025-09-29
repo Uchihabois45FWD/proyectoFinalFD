@@ -6,16 +6,19 @@ import '../../styles/events/Events.css'
 function Events() {
   const [rows, setRows] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   const isUser = authService.isUser()
   const [filters, setFilters] = useState({ q: '', from: '', to: '' })
 
   const load = async () => {
     setLoading(true)
+    setError(null)
     try {
       const data = await eventsService.list()
       setRows(Array.isArray(data) ? data : [])
     } catch (e) {
       console.error('Error cargando eventos:', e)
+      setError('No se pudieron cargar los eventos')
     } finally {
       setLoading(false)
     }
@@ -24,8 +27,6 @@ function Events() {
   useEffect(() => {
     load()
   }, [])
-
-  // La creación de eventos ahora está disponible sólo en la página de Colaboradores (/Colab)
 
   const onFilterChange = (e) => {
     const { name, value } = e.target
@@ -90,7 +91,9 @@ function Events() {
 
       <h2>Listado</h2>
       {loading ? (
-        <div>Cargando eventos...</div>
+        <div className="events-loading">Cargando eventos...</div>
+      ) : error ? (
+        <div className="events-error">{error}</div>
       ) : (
         <div className="events-table-wrapper">
           <table className="events-table">

@@ -243,3 +243,27 @@
   .auth-form{ max-width:480px; }
   .auth-title{ font-size:22px; }
 }
+
+/* ---- Register extras centralizados ---- */
+.grid-two {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-label {
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #374151; /* gris */
+}
+
+/* alias opcionales eliminados para evitar reglas vacías */
+
+@media (max-width: 640px) {
+  .grid-two { grid-template-columns: 1fr; }
+}

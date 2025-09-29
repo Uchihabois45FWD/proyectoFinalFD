@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { authService } from '../services/AuthServices.jsx'
 import { eventsService } from '../services/EventsService.jsx'
+import '../styles/pages/UserProfile.css'
 
 function Users() {
   const navigate = useNavigate()
@@ -66,18 +67,47 @@ function Users() {
 
   return (
     <div style={{ padding: 24 }}>
-      <h1>Perfil</h1>
-      {user && (
-        <p>
-          Bienvenido{user.name ? `, ${user.name}` : ''}. Rol: <strong>{user.role}</strong>
-        </p>
-      )}
+      <section className="profile-card">
+        <div className="profile-header">
+          <h1 className="profile-title">{user?.name || 'Usuario'}</h1>
+          <p className="profile-subtitle">
+            {user?.role === 'admin' ? 'Administrador' : user?.role === 'colab' ? 'Colaborador registrado' : 'Usuario registrado'}
+          </p>
+        </div>
+        <div className="profile-grid">
+          <div className="profile-item">
+            <div className="profile-label">Nombre:</div>
+            <div className="profile-value">{(user?.name || '-').split(' ')[0]}</div>
+          </div>
+          <div className="profile-item">
+            <div className="profile-label">Apellido:</div>
+            <div className="profile-value">{user?.lastName || (user?.name ? (user.name.split(' ')[1] || '-') : '-')}</div>
+          </div>
+          <div className="profile-item">
+            <div className="profile-label">Segundo Apellido:</div>
+            <div className="profile-value">{user?.secondLastName || (user?.name ? (user.name.split(' ')[2] || '-') : '-')}</div>
+          </div>
+          <div className="profile-item">
+            <div className="profile-label">Correo electrónico:</div>
+            <div className="profile-value">{user?.email || '-'}</div>
+          </div>
+          <div className="profile-item">
+            <div className="profile-label">Teléfono:</div>
+            <div className="profile-value">{user?.phone || '-'}</div>
+          </div>
+          <div className="profile-item">
+            <div className="profile-label">Cédula:</div>
+            <div className="profile-value">{user?.idNumber || '-'}</div>
+          </div>
+        </div>
+      </section>
+
       <div style={{ margin: '12px 0' }}>
         <Link to="/Approved-Events">Ver eventos aprobados</Link>
       </div>
 
       <section style={{ marginTop: 24 }}>
-        <h2>Eventos guardados</h2>
+        <h2 style={{ marginBottom: 12 }}>Eventos guardados</h2>
         {loadingSaved && <div>Cargando tus eventos guardados...</div>}
         {errorSaved && <div style={{ color: '#b91c1c' }}>{errorSaved}</div>}
         {!loadingSaved && !errorSaved && (

@@ -27,8 +27,6 @@ export const eventsService = {
       const res = await api.put(`/events/${numericId}`, payload)
       return res.data
     } catch (err) {
-      // Intento alterno por si el recurso no existe con ese id numérico
-      // o si el servidor requiere otro tipo de id
       const resList = await api.get('/events', { params: { id: id } })
       if (Array.isArray(resList.data) && resList.data.length > 0) {
         const existing = resList.data[0]
@@ -44,7 +42,6 @@ export const eventsService = {
       await api.delete(`/events/${numericId}`)
       return true
     } catch (err) {
-      // Fallback por si el id no es numérico en la base json
       const resList = await api.get('/events', { params: { id } })
       if (Array.isArray(resList.data) && resList.data.length > 0) {
         const existing = resList.data[0]
@@ -60,14 +57,11 @@ export const eventsService = {
       const res = await api.patch(`/events/${numericId}` , { status })
       return res.data
     } catch (err) {
-      // Fallback: si PATCH no está disponible o el item no se encuentra en memoria,
-      // intentamos hacer PUT con el objeto completo.
       if (err?.response?.status === 404 || err?.response?.status === 405) {
         let current = null
         try {
           current = await this.getById(numericId)
         } catch (e) {
-          // Ignorar, probaremos por query
         }
         if (!current) {
           const byQuery = await api.get('/events', { params: { id: numericId } })
@@ -87,3 +81,4 @@ export const eventsService = {
     }
   }
 }
+

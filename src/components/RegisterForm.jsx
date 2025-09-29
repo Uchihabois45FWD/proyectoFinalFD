@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { User, Mail, Lock, Eye, EyeOff, ArrowLeft } from "lucide-react";
 import "../styles/AuthForms.css";
 function RegisterForm({
-  registerData = { name: "", email: "", password: "", confirmPassword: "" },
+  registerData = { name: "", lastName: "", secondLastName: "", phone: "", idNumber: "", email: "", password: "", confirmPassword: "" },
   showPassword = false,
   showConfirmPassword = false,
   loading = false,
@@ -13,9 +13,13 @@ function RegisterForm({
   onToggleConfirmPassword = () => {},
   onSwitchToLogin = () => {},
 }) {
-  const [touched, setTouched] = useState({ name: false, email: false, password: false, confirmPassword: false });
+  const [touched, setTouched] = useState({ name: false, lastName: false, secondLastName: false, phone: false, idNumber: false, email: false, password: false, confirmPassword: false });
   const errors = {
     name: registerData?.name ? "" : "Ingresa tu nombre",
+    lastName: registerData?.lastName ? "" : "Ingresa tu apellido",
+    secondLastName: registerData?.secondLastName ? "" : "Ingresa tu segundo apellido",
+    phone: registerData?.phone ? "" : "Ingresa tu teléfono",
+    idNumber: registerData?.idNumber ? "" : "Ingresa tu cédula",
     email: registerData?.email ? "" : "Ingresa tu correo",
     password: !registerData?.password
       ? "Ingresa una contraseña"
@@ -55,7 +59,7 @@ function RegisterForm({
             <input
               type="text"
               name="name"
-              placeholder="Nombre completo"
+              placeholder="Nombre"
               value={registerData?.name || ""}
               onChange={onChange}
               onBlur={handleBlur}
@@ -67,6 +71,67 @@ function RegisterForm({
           {touched.name && errors.name && (
             <div className="error-text" role="alert">{errors.name}</div>
           )}
+          <div className="grid-two">
+            <div className={`form-field input-group ${touched.lastName ? "" : ""}`}>
+              <label className="field-label" htmlFor="lastName">Apellido</label>
+              <input
+                id="lastName"
+                type="text"
+                name="lastName"
+                placeholder="Apellido"
+                value={registerData?.lastName || ""}
+                onChange={onChange}
+                onBlur={handleBlur}
+                disabled={loading}
+                className={`form-input`}
+              />
+            </div>
+            <div className={`form-field input-group ${touched.secondLastName ? "" : ""}`}>
+              <label className="field-label" htmlFor="secondLastName">Segundo apellido</label>
+              <input
+                id="secondLastName"
+                type="text"
+                name="secondLastName"
+                placeholder="Segundo apellido"
+                value={registerData?.secondLastName || ""}
+                onChange={onChange}
+                onBlur={handleBlur}
+                disabled={loading}
+                className={`form-input`}
+              />
+            </div>
+          </div>
+          <div className="grid-two">
+            <div className={`form-field input-group ${touched.phone ? "" : ""}`}>
+              <label className="field-label" htmlFor="phone">Teléfono</label>
+              <input
+                id="phone"
+                type="tel"
+                name="phone"
+                placeholder="Teléfono"
+                value={registerData?.phone || ""}
+                onChange={onChange}
+                onBlur={handleBlur}
+                disabled={loading}
+                className={`form-input`}
+              />
+            </div>
+            <div className={`form-field input-group ${touched.idNumber ? "" : ""}`}>
+              <label className="field-label" htmlFor="idNumber">Cédula</label>
+              <input
+                id="idNumber"
+                type="text"
+                name="idNumber"
+                placeholder="Cédula"
+                value={registerData?.idNumber || ""}
+                onChange={onChange}
+                onBlur={handleBlur}
+                disabled={loading}
+                className={`form-input`}
+              />
+            </div>
+          </div>
+
           <div className={`input-group ${touched.email && errors.email ? "error" : ""}`}>
             <Mail className="input-icon" />
             <input
@@ -158,4 +223,3 @@ function RegisterForm({
 }
 
 export default RegisterForm;
-

@@ -14,7 +14,7 @@ function Colab() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [currentEvent, setCurrentEvent] = useState(null)
-  const [statusFilter, setStatusFilter] = useState('all') // all | pending | approved | rejected
+  const [statusFilter, setStatusFilter] = useState('all')
 
   useEffect(() => {
     const u = authService.getCurrentUser()
@@ -55,7 +55,6 @@ function Colab() {
       setSaving(true)
       setMessage(null)
       if (currentEvent && currentEvent.id) {
-        // actualizar existente (solo si no está aprobado)
         if ((currentEvent.status || 'pending') === 'approved') {
           setMessage({ type: 'error', text: 'No es posible editar un evento aprobado.' })
         } else {
@@ -72,7 +71,6 @@ function Colab() {
       }
       setShowForm(false)
       setCurrentEvent(null)
-      // refrescar listado
       const dataList = await eventsService.list()
       const mine = (Array.isArray(dataList) ? dataList : []).filter(ev => ev.requester === user.email)
       setRows(mine)
@@ -155,7 +153,6 @@ function Colab() {
           <option value="rejected">Rechazados</option>
         </select>
         <button className="btn btn--secondary" onClick={() => {
-          // refrescar listado
           if (!user) return
           (async () => {
             try {
@@ -195,7 +192,7 @@ function Colab() {
                   .sort((a, b) => {
                     const ta = a.date ? new Date(a.date).getTime() : 0
                     const tb = b.date ? new Date(b.date).getTime() : 0
-                    return tb - ta // descendente
+                    return tb - ta
                   })
                   .map(ev => (
                   <tr key={ev.id}>
@@ -251,4 +248,5 @@ function Colab() {
 }
 
 export default Colab
+
 

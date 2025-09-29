@@ -9,3 +9,15 @@
 .events-table { width: 100%; border-collapse: collapse; min-width: 760px; }
 .events-th { text-align: left; padding: 10px 12px; border-bottom: 1px solid #e5e7eb; font-weight: 600; font-size: 14px; background: #f9fafb; }
 .events-td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+
+/* EventDetail styles */
+.event-detail { padding: 16px; }
+.event-detail-loading { padding: 16px; }
+.event-detail-error { padding: 16px; color: #b91c1c; }
+.event-detail-not-found { padding: 16px; }
+.event-detail-title { margin-bottom: 16px; }
+.event-detail-content { margin-bottom: 16px; }
+.event-detail-item { margin: 8px 0; }
+.event-detail-actions { margin-top: 12px; }
+.event-detail-link { color: #0073ff; text-decoration: none; }
+.event-detail-link:hover { text-decoration: underline; }

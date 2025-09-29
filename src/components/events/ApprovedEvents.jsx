@@ -28,7 +28,7 @@ function ApprovedEvents() {
   }, [])
 
   if (loading) return <div className="approved-events">Cargando eventos aprobados...</div>
-  if (error) return <div className="approved-events" style={{ color: '#b91c1c' }}>{error}</div>
+  if (error) return <div className="approved-events approved-error">{error}</div>
 
   return (
     <div className="approved-events">
@@ -65,13 +65,13 @@ function ApprovedEvents() {
           </table>
         </div>
       <div className="approved-map">
-        <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
+        <MapContainer center={[9.9281, -84.0907]} zoom={13} scrollWheelZoom={false}>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           {rows.map(ev => (
-            <Marker key={ev.id} position={[51.5, -0.09]}>
+            <Marker key={ev.id} position={ev.location?.coordinates || [9.9281, -84.0907]}>
               <Popup>{ev.title}</Popup>
             </Marker>
           ))}

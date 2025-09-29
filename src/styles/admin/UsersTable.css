@@ -1,5 +1,7 @@
 .users-section { padding: 4px 0; }
 .users-section__title { margin: 12px 0; }
+.users-loading { padding: 12px; }
+.users-error { padding: 12px; color: #b91c1c; }
 .table-wrapper { overflow-x: auto; border: 1px solid #e5e7eb; border-radius: 8px; }
 .table { width: 100%; border-collapse: collapse; min-width: 720px; }
 .thead-row { background: #f9fafb; }

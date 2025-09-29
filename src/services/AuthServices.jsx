@@ -1,17 +1,15 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001'; // Puerto de json-server
+const API_URL = 'http://localhost:3001';
 
-// Configurar axios
 const api = axios.create({
   baseURL: API_URL,
-  timeout: 10000, // 10 segundos timeout
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
   }
 });
 
-// Interceptor para manejo de errores
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -21,7 +19,6 @@ api.interceptors.response.use(
 );
 
 export const authService = {
-  // Login - buscar usuario por email y password
   async login(email, password) {
     try {
       const response = await api.get(`/users`, {
@@ -30,7 +27,6 @@ export const authService = {
       
       if (response.data.length > 0) {
         const user = response.data[0];
-        // Guardar en localStorage
         localStorage.setItem('authUser', JSON.stringify(user));
         return { success: true, user, message: 'Login exitoso' };
       } else {
@@ -45,10 +41,8 @@ export const authService = {
     }
   },
 
-  // Registro - crear nuevo usuario
   async register(userData) {
     try {
-      // Verificar si el email ya existe
       const existingResponse = await api.get(`/users`, {
         params: { email: userData.email }
       });
@@ -57,10 +51,9 @@ export const authService = {
         return { success: false, message: 'El email ya está registrado' };
       }
 
-      // Crear nuevo usuario (siempre con role "user" por defecto)
       const newUser = {
         ...userData,
-        role: 'user', // Los nuevos usuarios son siempre usuarios normales
+        role: 'user',
         createdAt: new Date().toISOString()
       };
 
@@ -68,7 +61,6 @@ export const authService = {
 
       if (response.status === 201) {
         const user = response.data;
-        // Guardar en localStorage
         localStorage.setItem('authUser', JSON.stringify(user));
         return { success: true, user, message: 'Registro exitoso' };
       } else {
@@ -83,24 +75,20 @@ export const authService = {
     }
   },
 
-  // Logout
   logout() {
     localStorage.removeItem('authUser');
     return { success: true, message: 'Sesión cerrada' };
   },
 
-  // Obtener usuario actual
   getCurrentUser() {
     const userStr = localStorage.getItem('authUser');
     return userStr ? JSON.parse(userStr) : null;
   },
 
-  // Verificar si está autenticado
   isAuthenticated() {
     return this.getCurrentUser() !== null;
   },
 
-  // Verificar si es admin
   isAdmin() {
     const user = this.getCurrentUser();
     return user && user.role === 'admin';
@@ -116,7 +104,6 @@ export const authService = {
     return user && user.role === 'colab';
   },
 
-  // Actualizar usuario (por ejemplo, savedEvents) y refrescar localStorage
   async updateUser(updatedUser) {
     if (!updatedUser || !updatedUser.id) throw new Error('Usuario inválido para actualizar');
     const res = await api.put(`/users/${updatedUser.id}`, updatedUser);

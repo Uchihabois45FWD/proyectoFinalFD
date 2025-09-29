@@ -77,8 +77,8 @@ function UsersTable() {
     }
   }
 
-  if (loading) return <div style={{ padding: 12 }}>Cargando usuarios...</div>
-  if (error) return <div style={{ padding: 12, color: '#b91c1c' }}>{error}</div>
+  if (loading) return <div className="users-loading">Cargando usuarios...</div>
+  if (error) return <div className="users-error">{error}</div>
 
   return (
     <section className="users-section">

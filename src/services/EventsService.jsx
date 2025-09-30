@@ -22,9 +22,8 @@ export const eventsService = {
     return res.data
   },
   async update(id, payload) {
-    const numericId = Number(id)
     try {
-      const res = await api.put(`/events/${numericId}`, payload)
+      const res = await api.put(`/events/${id}`, payload)
       return res.data
     } catch (err) {
       const resList = await api.get('/events', { params: { id: id } })
@@ -37,9 +36,8 @@ export const eventsService = {
     }
   },
   async delete(id) {
-    const numericId = Number(id)
     try {
-      await api.delete(`/events/${numericId}`)
+      await api.delete(`/events/${id}`)
       return true
     } catch (err) {
       const resList = await api.get('/events', { params: { id } })
@@ -52,33 +50,20 @@ export const eventsService = {
     }
   },
   async updateStatus(id, status) {
-    const numericId = Number(id)
+    let current = null
     try {
-      const res = await api.patch(`/events/${numericId}` , { status })
-      return res.data
-    } catch (err) {
-      if (err?.response?.status === 404 || err?.response?.status === 405) {
-        let current = null
-        try {
-          current = await this.getById(numericId)
-        } catch (e) {
-        }
-        if (!current) {
-          const byQuery = await api.get('/events', { params: { id: numericId } })
-          if (Array.isArray(byQuery.data) && byQuery.data.length > 0) {
-            current = byQuery.data[0]
-          }
-        }
-        if (!current) {
-          const notFound = new Error(`No se encontró el evento con id ${numericId} para actualizar`)
-          notFound.cause = err
-          throw notFound
-        }
-        const res = await api.put(`/events/${numericId}`, { ...current, status })
-        return res.data
+      current = await this.getById(id)
+    } catch (e) {
+      const byQuery = await api.get('/events', { params: { id: id } })
+      if (Array.isArray(byQuery.data) && byQuery.data.length > 0) {
+        current = byQuery.data[0]
       }
-      throw err
     }
+    if (!current) {
+      throw new Error(`No se encontró el evento con id ${id} para actualizar`)
+    }
+    const res = await api.put(`/events/${id}`, { ...current, status })
+    return res.data
   }
 }
 

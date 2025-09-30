@@ -39,7 +39,7 @@ function LoginMenu() {
         } else if (result.user?.role === 'admin') {
           navigate('/Admin')
         } else {
-          navigate('/Users')
+          navigate('/User')
         }
       } else {
         setMessage({ text: result.message || 'Credenciales inválidas.' })

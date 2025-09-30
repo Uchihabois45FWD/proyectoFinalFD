@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { authService } from '../../services/AuthServices.jsx'
 import { eventsService } from '../../services/EventsService.jsx'
+import { Link } from 'react-router-dom'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import 'leaflet/dist/leaflet.css'
 import '../../styles/events/Events.css'
 
 function Events() {
@@ -60,7 +63,7 @@ function Events() {
 
   return (
     <div className="events-page">
-      <h1>Eventos</h1>
+      <h1>{isUser ? 'Eventos Aprobados' : 'Eventos'}</h1>
       {isUser && (
         <div className="events-filters">
           <input
@@ -104,6 +107,8 @@ function Events() {
                 <th className="events-th">Fecha</th>
                 <th className="events-th">Solicitante</th>
                 <th className="events-th">Estado</th>
+                {isUser && <th className="events-th">Guardar</th>}
+                <th className="events-th">Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -114,10 +119,55 @@ function Events() {
                   <td className="events-td">{ev.date ? new Date(ev.date).toLocaleString() : '-'}</td>
                   <td className="events-td">{ev.requester}</td>
                   <td className="events-td">{ev.status}</td>
+                  {isUser && (
+                    <td className="events-td">
+                      <button
+                        className="btn"
+                        onClick={async () => {
+                          const user = authService.getCurrentUser()
+                          if (!user) return
+                          try {
+                            const isSaved = Array.isArray(user.savedEvents) && user.savedEvents.includes(ev.id)
+                            if (isSaved) {
+                              const next = { ...user, savedEvents: user.savedEvents.filter(x => x !== ev.id) }
+                              await authService.updateUser(next)
+                            } else {
+                              const next = { ...user, savedEvents: [...(user.savedEvents || []), ev.id] }
+                              await authService.updateUser(next)
+                            }
+                            // Reload to update
+                            load()
+                          } catch (e) {
+                            alert('Error al actualizar eventos guardados')
+                          }
+                        }}
+                      >
+                        {Array.isArray(authService.getCurrentUser()?.savedEvents) && authService.getCurrentUser().savedEvents.includes(ev.id) ? 'Quitar' : 'Guardar'}
+                      </button>
+                    </td>
+                  )}
+                  <td className="events-td">
+                    <Link to={`/Events/${ev.id}`}>Ver</Link>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+      {isUser && filteredRows.length > 0 && (
+        <div className="events-map">
+          <MapContainer center={[9.9281, -84.0907]} zoom={13} scrollWheelZoom={false}>
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            {filteredRows.map(ev => (
+              <Marker key={ev.id} position={ev.location?.coordinates || [9.9281, -84.0907]}>
+                <Popup>{ev.title}</Popup>
+              </Marker>
+            ))}
+          </MapContainer>
         </div>
       )}
     </div>

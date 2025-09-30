@@ -45,10 +45,10 @@ function UsersTable() {
     try {
       const name = window.prompt('Nuevo nombre:', u.name)
       if (name === null) return
-      const role = window.prompt("Rol ('admin' o 'user'):", u.role)
+      const role = window.prompt("Rol ('admin','user' o 'colab'):", u.role)
       if (role === null) return
-      if (!['admin', 'user'].includes(role)) {
-        alert("Rol inválido. Use 'admin' o 'user'.")
+      if (!['admin', 'user', 'colab'].includes(role)) {
+        alert("Rol inválido. Use 'admin', 'user' o 'colab'.")
         return
       }
       setBusyId(u.id)

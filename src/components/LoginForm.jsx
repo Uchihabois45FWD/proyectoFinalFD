@@ -29,11 +29,6 @@ function LoginForm({
           </div>
           <h2 className="auth-title">Bienvenido</h2>
           <p className="auth-subtitle">Inicia sesión en tu cuenta</p>
-          <p className="auth-demo">
-            Admin: admin@sistema.com / admin123
-            <br />
-            Usuario: user@demo.com / 123456
-          </p>
         </div>
         {message?.text && (
           <div className="message-container" role="status" aria-live="polite">

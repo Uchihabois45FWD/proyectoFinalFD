@@ -2,14 +2,16 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 import LoginMenu from '../pages/LoginMenu'
 import Admin from '../pages/Admin'
-import Users from '../pages/Users'
+import User from '../pages/User'
 import { authService } from '../services/AuthServices.jsx'
 import Colab from '../pages/Colab'
 import Events from '../components/events/Events'
-import ApprovedEvents from '../components/events/ApprovedEvents'
 import EventDetail from '../components/events/EventDetail'
 import AppLayout from '../components/AppLayout'
 import Calendar from '../pages/Calendar'
+import AdminUsers from '../pages/AdminUsers'
+import AdminCollaborators from '../pages/AdminCollaborators'
+import AdminEvents from '../pages/AdminEvents'
 
 function Routing() {
   const ProtectedRoute = ({ children }) => {
@@ -23,7 +25,7 @@ function Routing() {
   }
 
   const UserRoute = ({ children }) => {
-    return authService.isAuthenticated() && (authService.isUser() || authService.isCollaborator())
+    return authService.isAuthenticated()
       ? children
       : <Navigate to="/" replace />
   }
@@ -45,10 +47,10 @@ function Routing() {
             </AppLayout>
           </AdminRoute>
         } />
-        <Route path="/Users" element={
+        <Route path="/User" element={
           <UserRoute>
             <AppLayout>
-              <Users />
+              <User />
             </AppLayout>
           </UserRoute>
         } />
@@ -73,19 +75,34 @@ function Routing() {
             </AppLayout>
           </ProtectedRoute>
         } />
-        <Route path="/Approved-Events" element={
-          <AdminRoute>
-            <AppLayout>
-              <ApprovedEvents />
-            </AppLayout>
-          </AdminRoute>
-        } />
+
         <Route path="/Events/:id" element={
           <ProtectedRoute>
             <AppLayout>
               <EventDetail />
             </AppLayout>
           </ProtectedRoute>
+        } />
+        <Route path="/AdminUsers" element={
+          <AdminRoute>
+            <AppLayout>
+              <AdminUsers />
+            </AppLayout>
+          </AdminRoute>
+        } />
+        <Route path="/AdminCollaborators" element={
+          <AdminRoute>
+            <AppLayout>
+              <AdminCollaborators />
+            </AppLayout>
+          </AdminRoute>
+        } />
+        <Route path="/AdminEvents" element={
+          <AdminRoute>
+            <AppLayout>
+              <AdminEvents />
+            </AppLayout>
+          </AdminRoute>
         } />
       </Routes>
     </Router>

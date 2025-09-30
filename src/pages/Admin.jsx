@@ -20,11 +20,9 @@ function Admin() {
   return (
     <div className="admin-app">
       <main className="admin-main">
-        <Header />
+        <Header title="Dashboard de Administrador" />
         <div className="admin-content">
           <StatsCards />
-          <UsersTable />
-          <EventsPanel />
         </div>
       </main>
     </div>

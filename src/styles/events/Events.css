@@ -10,6 +10,8 @@
 .events-th { text-align: left; padding: 10px 12px; border-bottom: 1px solid #e5e7eb; font-weight: 600; font-size: 14px; background: #f9fafb; }
 .events-td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
 
+.events-map { margin-top: 24px; height: 400px; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; }
+
 /* EventDetail styles */
 .event-detail { padding: 16px; }
 .event-detail-loading { padding: 16px; }

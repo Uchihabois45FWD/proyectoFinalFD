@@ -18,25 +18,22 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-      <div className="navbar__brand" onClick={() => navigate(isAdmin ? '/Admin' : '/Events')} role="button" tabIndex={0}>
-        <span className="navbar__logo">🎟️</span>
-        <span className="navbar__title">Eventos</span>
-      </div>
-
       <div className="navbar__links">
         {isAuth && (
           <>
             {isAdmin && (
               <>
-                <NavLink to="/Admin#users" className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`}>Usuarios</NavLink>
-                <NavLink to="/Admin#collaborators" className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`}>Colaboradores</NavLink>
-                <NavLink to="/Admin#events" className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`}>Eventos</NavLink>
+                <NavLink to="/AdminUsers" className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`}>Usuarios</NavLink>
+                <NavLink to="/AdminCollaborators" className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`}>Colaboradores</NavLink>
+                <NavLink to="/AdminEvents" className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`}>Eventos</NavLink>
+                <NavLink to="/Admin" className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`}>Admin</NavLink>
+                <NavLink to="/User" className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`}>Perfil</NavLink>
               </>
             )}
             {isUser && !isAdmin && !isColab && (
               <>
                 <NavLink to="/Events" className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`}>Eventos</NavLink>
-                <NavLink to="/Users" className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`}>Perfil</NavLink>
+                <NavLink to="/User" className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`}>Perfil</NavLink>
                 <NavLink to="/Calendar" className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`}>Calendario</NavLink>
               </>
             )}

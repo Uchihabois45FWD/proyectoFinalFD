@@ -36,7 +36,7 @@ function StatsCards() {
   const total = users.length
   const admins = users.filter(u => u.role === 'admin').length
   const standardUsers = users.filter(u => u.role === 'user').length
-  const collaborators = users.filter(u => typeof u.email === 'string' && ['sweetspotCR@gmail.com'].includes(u.email.toLowerCase())).length
+  const collaborators = users.filter(u => u.role === 'colab').length
 
   return (
     <section className="stats">

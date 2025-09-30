@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { eventsService } from '../../services/EventsService.jsx'
+import { authService } from '../../services/AuthServices.jsx'
 import '../../styles/events/Events.css'
 
 function EventDetail() {
@@ -8,6 +9,9 @@ function EventDetail() {
   const [event, setEvent] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [isSaved, setIsSaved] = useState(false)
+  const user = authService.getCurrentUser()
+  const isUser = authService.isUser()
 
   useEffect(() => {
     const load = async () => {
@@ -16,6 +20,9 @@ function EventDetail() {
       try {
         const data = await eventsService.getById(id)
         setEvent(data)
+        if (user && Array.isArray(user.savedEvents)) {
+          setIsSaved(user.savedEvents.includes(data.id))
+        }
       } catch (e) {
         console.error('Error cargando evento:', e)
         setError('No se pudo cargar el evento')
@@ -24,7 +31,7 @@ function EventDetail() {
       }
     }
     load()
-  }, [id])
+  }, [id, user])
 
   if (loading) return <div className="event-detail-loading">Cargando evento...</div>
   if (error) return <div className="event-detail-error">{error}</div>
@@ -41,7 +48,29 @@ function EventDetail() {
         <p className="event-detail-item"><strong>Estado:</strong> {event.status || 'pending'}</p>
       </div>
       <div className="event-detail-actions">
-        <Link to="/Approved-Events" className="event-detail-link">Volver a eventos aprobados</Link>
+        {isUser && (
+          <button
+            className="btn"
+            onClick={async () => {
+              try {
+                if (isSaved) {
+                  const next = { ...user, savedEvents: user.savedEvents.filter(x => x !== event.id) }
+                  await authService.updateUser(next)
+                  setIsSaved(false)
+                } else {
+                  const next = { ...user, savedEvents: [...(user.savedEvents || []), event.id] }
+                  await authService.updateUser(next)
+                  setIsSaved(true)
+                }
+              } catch (e) {
+                alert('Error al actualizar eventos guardados')
+              }
+            }}
+          >
+            {isSaved ? 'Quitar de guardados' : 'Guardar evento'}
+          </button>
+        )}
+        <Link to="/Events" className="event-detail-link">Volver a eventos</Link>
       </div>
     </div>
   )

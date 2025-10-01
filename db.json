@@ -22,7 +22,25 @@
       "email": "adriancamposcisnero@gmail.com",
       "password": "2070603",
       "role": "user",
-      "createdAt": "2025-09-25T14:47:56.141Z"
+      "createdAt": "2025-09-25T14:47:56.141Z",
+      "savedEvents": [
+        "71cb"
+      ]
+    },
+    {
+      "id": "3778",
+      "name": "Jeaustin",
+      "lastName": "Calderon",
+      "secondLastName": "",
+      "phone": "86311302",
+      "idNumber": "",
+      "email": "pepe@gmail.com",
+      "password": "123456",
+      "role": "user",
+      "createdAt": "2025-10-01T14:35:57.987Z",
+      "savedEvents": [
+        "71cb"
+      ]
     }
   ],
   "events": [

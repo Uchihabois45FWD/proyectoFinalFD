@@ -1,12 +1,22 @@
 import React from 'react'
 import Navbar from './Navbar'
+import '../styles/global.css'
 
 function AppLayout({ children }) {
+  const isAuthPage = typeof window !== 'undefined' && (window.location.pathname === '/LoginMenu' || window.location.pathname === '/RegisterForm')
+
   return (
     <div className="app-layout">
       <Navbar />
       <main className="app-content">
-        {children}
+        {isAuthPage ? (
+          // Render auth pages directly; they handle full-screen layout themselves
+          <>{children}</>
+        ) : (
+          <div className="container-blur">
+            {children}
+          </div>
+        )}
       </main>
     </div>
   )

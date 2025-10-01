@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import LoginForm from '../components/LoginForm'
 import RegisterForm from '../components/RegisterForm'
-import "../styles/overlays.css"
+import "../styles/pages/loginForm.css"
 import { authService } from '../services/AuthServices.jsx'
 
 function LoginMenu() {
@@ -100,48 +100,44 @@ function LoginMenu() {
   }
 
   return (
-    <div className={`auth-wrapper ${mode === 'login' ? 'is-login' : 'is-register'}`}>
-      {mode === 'login' ? (
-        <LoginForm
-          loginData={loginData}
-          showPassword={showLoginPassword}
-          loading={loading}
-          message={message}
-          onChange={handleLoginChange}
-          onSubmit={handleLoginSubmit}
-          onTogglePassword={() => setShowLoginPassword((v) => !v)}
-          onSwitchToRegister={() => setMode('register')}
-        />
-      ) : (
-        <RegisterForm
-          registerData={registerData}
-          showPassword={showRegPassword}
-          showConfirmPassword={showRegConfirmPassword}
-          loading={loading}
-          message={message}
-          onChange={handleRegisterChange}
-          onSubmit={handleRegisterSubmit}
-          onTogglePassword={() => setShowRegPassword((v) => !v)}
-          onToggleConfirmPassword={() => setShowRegConfirmPassword((v) => !v)}
-          onSwitchToLogin={() => setMode('login')}
-        />
-      )}
-
-      <div className={`overlay overlay--login ${mode === 'register' ? 'overlay--active' : ''}`}>
-        <div className="overlay-content">
-          <div className="overlay-icon">←</div>
-          <h3 className="overlay-title">¿Ya tienes cuenta?</h3>
-          <p className="overlay-text">Inicia sesión para continuar.</p>
-          <button className="overlay-btn" onClick={() => setMode('login')}>Ir a iniciar sesión</button>
+    <div className="login-wrapper">
+      <div className={`container ${mode === 'register' ? 'active' : ''}`}>
+        <div className="hero-panel">
+          <h2>{mode === 'login' ? '¡Bienvenido de nuevo!' : 'Crear una cuenta'}</h2>
+          <p>{mode === 'login' ? 'Inicia sesión para continuar con tu experiencia.' : 'Regístrate para comenzar a utilizar la plataforma.'}</p>
+          {mode === 'login' ? (
+            <button className="btn secondary" onClick={() => setMode('register')}>Crear cuenta</button>
+          ) : (
+            <button className="btn secondary" onClick={() => setMode('login')}>Iniciar sesión</button>
+          )}
         </div>
-      </div>
 
-      <div className={`overlay overlay--register ${mode === 'login' ? 'overlay--active' : ''}`}>
-        <div className="overlay-content">
-          <div className="overlay-icon">→</div>
-          <h3 className="overlay-title">¿Nuevo por aquí?</h3>
-          <p className="overlay-text">Crea tu cuenta y únete.</p>
-          <button className="overlay-btn" onClick={() => setMode('register')}>Ir a registrarse</button>
+        <div className="form-panel sign-in">
+          <LoginForm
+            loginData={loginData}
+            showPassword={showLoginPassword}
+            loading={loading}
+            message={message}
+            onChange={handleLoginChange}
+            onSubmit={handleLoginSubmit}
+            onTogglePassword={() => setShowLoginPassword((v) => !v)}
+            onSwitchToRegister={() => setMode('register')}
+          />
+        </div>
+
+        <div className="form-panelregister">
+          <RegisterForm
+            registerData={registerData}
+            showPassword={showRegPassword}
+            showConfirmPassword={showRegConfirmPassword}
+            loading={loading}
+            message={message}
+            onChange={handleRegisterChange}
+            onSubmit={handleRegisterSubmit}
+            onTogglePassword={() => setShowRegPassword((v) => !v)}
+            onToggleConfirmPassword={() => setShowRegConfirmPassword((v) => !v)}
+            onSwitchToLogin={() => setMode('login')}
+          />
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo, useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { eventsService } from '../../services/EventsService.jsx'
 import { authService } from '../../services/AuthServices.jsx'
@@ -10,8 +10,8 @@ function EventDetail() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [isSaved, setIsSaved] = useState(false)
-  const user = authService.getCurrentUser()
-  const isUser = authService.isUser()
+  const user = useMemo(() => authService.getCurrentUser(), [])
+  const isUser = useMemo(() => authService.isUser(), [])
 
   useEffect(() => {
     const load = async () => {
@@ -21,7 +21,7 @@ function EventDetail() {
         const data = await eventsService.getById(id)
         setEvent(data)
         if (user && Array.isArray(user.savedEvents)) {
-          setIsSaved(user.savedEvents.includes(data.id))
+          setIsSaved(user.savedEvents.includes(String(data.id)))
         }
       } catch (e) {
         console.error('Error cargando evento:', e)
@@ -32,6 +32,23 @@ function EventDetail() {
     }
     load()
   }, [id, user])
+
+  const toggleSaved = useCallback(async () => {
+    if (!user || !event) return
+    try {
+      if (isSaved) {
+        const next = { ...user, savedEvents: user.savedEvents.filter(x => x !== String(event.id)) }
+        await authService.updateUser(next)
+        setIsSaved(false)
+      } else {
+        const next = { ...user, savedEvents: [...(user.savedEvents || []), String(event.id)] }
+        await authService.updateUser(next)
+        setIsSaved(true)
+      }
+    } catch (e) {
+      alert('Error al actualizar eventos guardados')
+    }
+  }, [user, event, isSaved])
 
   if (loading) return <div className="event-detail-loading">Cargando evento...</div>
   if (error) return <div className="event-detail-error">{error}</div>
@@ -51,21 +68,7 @@ function EventDetail() {
         {isUser && (
           <button
             className="btn"
-            onClick={async () => {
-              try {
-                if (isSaved) {
-                  const next = { ...user, savedEvents: user.savedEvents.filter(x => x !== event.id) }
-                  await authService.updateUser(next)
-                  setIsSaved(false)
-                } else {
-                  const next = { ...user, savedEvents: [...(user.savedEvents || []), event.id] }
-                  await authService.updateUser(next)
-                  setIsSaved(true)
-                }
-              } catch (e) {
-                alert('Error al actualizar eventos guardados')
-              }
-            }}
+            onClick={toggleSaved}
           >
             {isSaved ? 'Quitar de guardados' : 'Guardar evento'}
           </button>

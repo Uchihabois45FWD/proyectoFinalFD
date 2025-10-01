@@ -1,0 +1,123 @@
+/* Global styles for project based on provided images */
+
+:root {
+  --radius: 20px;
+  --transition: 200ms ease;
+  --color-primary: #6366f1; /* Indigo */
+  --color-primary-hover: #4f46e5;
+  --color-primary-active: #4338ca;
+  --color-text: #1f2937; /* Gray-800 */
+  --color-muted: #6b7280; /* Gray-500 */
+  --color-background: rgba(255, 255, 255, 0.85);
+  --color-background-blur: rgba(255, 255, 255, 0.6);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  font-family: var(--font-family);
+  color: var(--color-text);
+  background: url('/background.jpg') no-repeat center center fixed;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-content {
+  flex: 1;
+  padding: 30px;
+}
+
+/* Buttons */
+button, .btn {
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  border: none;
+  transition: background-color var(--transition), box-shadow var(--transition);
+  box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3);
+  background: linear-gradient(90deg, #6366f1, #a78bfa);
+  color: white;
+}
+
+button:hover, .btn:hover {
+  background: linear-gradient(90deg, #4f46e5, #8b5cf6);
+  box-shadow: 0 6px 12px rgba(79, 70, 229, 0.5);
+}
+
+button:active, .btn:active {
+  background: linear-gradient(90deg, #4338ca, #7c3aed);
+  box-shadow: 0 2px 6px rgba(67, 56, 202, 0.7);
+}
+
+/* Links */
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Form inputs */
+input, select, textarea {
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  padding: 10px 15px;
+  font-size: 1rem;
+  transition: border-color var(--transition);
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.5);
+}
+
+/* Container cards */
+.card {
+  background: var(--color-background);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(10px);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--color-text);
+  margin-bottom: 1rem;
+}
+
+/* Utility */
+.text-center {
+  text-align: center;
+}
+
+/* Container blur for AppLayout */
+.container-blur {
+  background: var(--color-background);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 30px;
+  backdrop-filter: blur(10px);
+  transition: all var(--transition);
+}
+
+/* (removed) legacy auth overlay container styles */

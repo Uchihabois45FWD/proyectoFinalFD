@@ -1,105 +1,70 @@
-import React, { useState } from "react";
-import { User, Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
-import "../styles/AuthForms.css";
+import React from 'react'
+import { Eye, EyeOff } from 'lucide-react'
+
 function LoginForm({
-  loginData = { email: "", password: "" },
-  showPassword = false,
-  loading = false,
-  message = null,
-  onChange = () => {},
-  onSubmit = () => {},
-  onTogglePassword = () => {},
-  onSwitchToRegister = () => {},
+  loginData,
+  showPassword,
+  loading,
+  message,
+  onChange,
+  onSubmit,
+  onTogglePassword,
+  onSwitchToRegister,
 }) {
-  const [touched, setTouched] = useState({ email: false, password: false });
-  const errors = {
-    email: loginData?.email ? "" : "Ingresa tu correo",
-    password: loginData?.password ? "" : "Ingresa tu contraseña",
-  };
-  const handleBlur = (e) => {
-    const { name } = e.target;
-    setTouched((t) => ({ ...t, [name]: true }));
-  };
   return (
-    <div className="auth-side auth-side--login">
-      <div className="auth-form">
-        <div className="auth-header">
-          <div className="auth-icon">
-            <User className="icon" />
-          </div>
-          <h2 className="auth-title">Bienvenido</h2>
-          <p className="auth-subtitle">Inicia sesión en tu cuenta</p>
+    <form onSubmit={onSubmit}>
+      <h2>Iniciar sesión</h2>
+      <p>Ingresa tus credenciales para continuar.</p>
+      {message?.text && (
+        <div className="message-container">
+          <div className="message-text">{message.text}</div>
         </div>
-        {message?.text && (
-          <div className="message-container" role="status" aria-live="polite">
-            <p className="message-text">{message.text}</p>
-          </div>
-        )}
-        <div className="form-fields">
-          <div className={`input-group ${touched.email && errors.email ? "error" : ""}`}>
-            <Mail className="input-icon" />
-            <input
-              type="email"
-              name="email"
-              placeholder="Correo electrónico"
-              value={loginData?.email || ""}
-              onChange={onChange}
-              onBlur={handleBlur}
-              disabled={loading}
-              className={`form-input ${touched.email && errors.email ? "error" : ""}`}
-              required
-            />
-          </div>
-          {touched.email && errors.email && (
-            <div className="error-text" role="alert">{errors.email}</div>
-          )}
-          <div className={`input-group ${touched.password && errors.password ? "error" : ""}`}>
-            <Lock className="input-icon input-icon--left" />
-            <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              placeholder="Contraseña"
-              value={loginData?.password || ""}
-              onChange={onChange}
-              onBlur={handleBlur}
-              disabled={loading}
-              className={`form-input form-input--password ${touched.password && errors.password ? "error" : ""}`}
-              required
-            />
-            <button
-              type="button"
-              onClick={onTogglePassword}
-              disabled={loading}
-              className="input-icon input-icon--right"
-            >
-              {showPassword ? <EyeOff className="icon" /> : <Eye className="icon" />}
-            </button>
-          </div>
-          {touched.password && errors.password && (
-            <div className="error-text" role="alert">{errors.password}</div>
-          )}
-          <button
-            onClick={onSubmit}
-            disabled={loading}
-            className="submit-btn submit-btn--login"
-          >
-            {loading ? "Verificando..." : "Iniciar Sesión"}
-          </button>
-          <div className="switch-section">
-            <p className="switch-text">¿No tienes una cuenta?</p>
-            <button
-              onClick={onSwitchToRegister}
-              disabled={loading}
-              className="switch-btn"
-            >
-              Crear cuenta nueva <ArrowRight className="switch-icon" />
-            </button>
-          </div>
-        </div>
+      )}
+
+      <input
+        type="email"
+        name="email"
+        placeholder="Correo electrónico"
+        value={loginData.email}
+        onChange={onChange}
+        required
+      />
+
+      <div style={{ position: 'relative' }}>
+        <input
+          type={showPassword ? 'text' : 'password'}
+          name="password"
+          placeholder="Contraseña"
+          value={loginData.password}
+          onChange={onChange}
+          required
+        />
+        <button
+          type="button"
+          className="input-eye"
+          onClick={onTogglePassword}
+          aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+          title={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+        >
+          {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+        </button>
       </div>
-    </div>
-  );
+
+      <button type="submit" className="btn primary" disabled={loading}>
+        {loading ? 'Entrando...' : 'Iniciar sesión'}
+      </button>
+
+      <div style={{ marginTop: 12 }}>
+        <button
+          type="button"
+          className="btn secondary"
+          onClick={onSwitchToRegister}
+        >
+          Crear cuenta
+        </button>
+      </div>
+    </form>
+  )
 }
 
-export default LoginForm;
-
+export default LoginForm

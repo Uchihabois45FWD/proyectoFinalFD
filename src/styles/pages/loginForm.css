@@ -1,0 +1,277 @@
+:root {
+  --outer-background: #0A192F;
+  --card-background: #FFFFFF;
+  --gradient-start: #5054A7;
+  --gradient-end: #1DD4B5;
+  --primary-text: #1A1A1A;
+  --secondary-text: #666666;
+  --hero-text: #FFFFFF;
+  --cta-primary-bg: #1DD4B5;
+  --cta-secondary-bg: rgba(255, 255, 255, 0);
+  --cta-secondary-border: #FFFFFF;
+  --input-bg: #F7F7F7;
+  --font-family: 'Poppins', 'Inter', 'Roboto', sans-serif;
+}
+
+.login-wrapper {
+  min-height: 100vh;
+  background-color: var(--outer-background);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-family: var(--font-family);
+}
+
+.container {
+  width: 80%;
+  max-width: 100%;
+  height: 500px;
+  background-color: var(--card-background);
+  border-radius: 40px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hero Panel */
+.hero-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  color: var(--hero-text);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 30px;
+  text-align: center;
+  transition: left 0.6s ease-in-out, border-radius 0.6s ease-in-out;
+  z-index: 100;
+  border-radius: 40px 0 0 40px;
+}
+
+.hero-panel h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: var(--hero-text);
+}
+
+.hero-panel p {
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: 30px;
+  line-height: 1.4;
+  max-width: 280px;
+  color: var(--hero-text);
+}
+
+/* Form Panels */
+.form-panel {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  padding: 32px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: var(--card-background);
+  transition: left 0.6s ease-in-out, opacity 0.6s ease-in-out;
+  overflow: auto; /* si el contenido excede, permite scroll interno */
+}
+
+/* Centrar el contenido del formulario en desktop */
+.form-panel form {
+  max-width: 380px;
+  width: 320px;
+  margin: 0 auto;
+}
+
+/* Sign In Panel - visible by default at the right half */
+.form-panel.sign-in {
+  left: 450px;
+  opacity: 1;
+  z-index: 50;
+}
+
+.form-panel h2 {
+  font-size: 1.7rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--primary-text);
+}
+
+.form-panel p {
+  font-size: 0.85rem;
+  color: var(--secondary-text);
+  margin-bottom: 12px;
+}
+
+.form-panel input {
+  height: 40px;
+  margin-bottom: 6px;
+  padding: 0 44px 0 14px; /* espacio a la derecha para el ojo */
+  border-radius: 10px;
+  border: none;
+  background-color: var(--input-bg);
+  font-size: 0.9rem;
+  color: var(--primary-text);
+  font-family: var(--font-family);
+}
+
+.form-panel input::placeholder {
+  color: var(--secondary-text);
+  font-weight: 400;
+}
+
+.form-panel input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--cta-primary-bg);
+}
+
+/* Campos con etiqueta compactos */
+.field { margin-bottom: 8px; }
+.field label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--primary-text);
+  margin-bottom: 3px;
+}
+
+/* Helper: botón de ojo para inputs de contraseña */
+.input-eye {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: var(--secondary-text);
+  cursor: pointer;
+  z-index: 2;
+}
+
+.input-eye:hover { color: var(--primary-text); }
+.input-eye:focus { outline: none; box-shadow: 0 0 0 2px rgba(0,0,0,0.05); border-radius: 6px; }
+
+/* Utilidad de grid para pares de campos */
+.grid-two { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+/* Espaciado entre botones secuenciales */
+.btn + .btn { margin-top: 12px; }
+
+/* Sign Up Panel - Inicial OCULTO */
+.form-panel.sign-up {
+  left: 50%;
+  opacity: 0;
+  z-index: 1;
+}
+
+/* Buttons */
+.btn {
+  height: 50px;
+  padding: 0 30px;
+  border-radius: 30px;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: var(--font-family);
+}
+
+.btn.primary {
+  background-color: var(--cta-primary-bg);
+  color: var(--hero-text);
+  border: none;
+}
+
+.btn.primary:hover {
+  background-color: #17b3a7;
+}
+
+.btn.secondary {
+  background-color: var(--cta-secondary-bg);
+  color: var(--hero-text);
+  border: 2px solid var(--cta-secondary-border);
+}
+
+.btn.secondary:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Active State - Cuando se hace clic en SIGN UP */
+.container.active .hero-panel {
+  left: 50%;
+  border-radius: 0 40px 40px 0;
+}
+
+.container.active .form-panel.sign-in {
+  left: -50%;
+  opacity: 0;
+  z-index: 1;
+}
+
+.container.active .form-panel.sign-up {
+  left: 0;
+  opacity: 1;
+  z-index: 50;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    height: auto;
+    min-height: 600px;
+    flex-direction: column;
+    border-radius: 20px;
+  }
+
+  .hero-panel {
+    position: relative;
+    width: 100% !important;
+    height: 200px;
+    left: 0 !important;
+    border-radius: 20px 20px 0 0 !important;
+  }
+
+  .form-panel {
+    position: relative;
+    width: 100% !important;
+    height: auto;
+    padding: 30px 20px;
+    left: 0 !important;
+    opacity: 1 !important;
+  }
+
+  .form-panel.sign-in {
+    display: block;
+  }
+
+  .form-panel.sign-up {
+    display: none;
+  }
+
+  .container.active .form-panel.sign-in {
+    display: none;
+  }
+
+  .container.active .form-panel.sign-up {
+    display: block;
+  }
+}

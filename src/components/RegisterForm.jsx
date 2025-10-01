@@ -1,24 +1,44 @@
 import React, { useState } from "react";
-import { User, Mail, Lock, Eye, EyeOff, ArrowLeft } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
+import "../styles/pages/RegisterForm.css";
+
 function RegisterForm({
-  registerData = { name: "", lastName: "", secondLastName: "", phone: "", idNumber: "", email: "", password: "", confirmPassword: "" },
+  registerData = { 
+    name: "", 
+    lastName: "", 
+    secondLastName: "", 
+    phone: "", 
+    username: "", 
+    email: "", 
+    password: "", 
+    confirmPassword: "" 
+  },
   showPassword = false,
   showConfirmPassword = false,
   loading = false,
   message = null,
   onChange = () => {},
-  onSubmit = () => {},
+  onSubmit = (e) => { e.preventDefault(); },
   onTogglePassword = () => {},
   onToggleConfirmPassword = () => {},
-  onSwitchToLogin = () => {},
 }) {
-  const [touched, setTouched] = useState({ name: false, lastName: false, secondLastName: false, phone: false, idNumber: false, email: false, password: false, confirmPassword: false });
+  const [touched, setTouched] = useState({ 
+    name: false, 
+    lastName: false, 
+    secondLastName: false, 
+    phone: false, 
+    username: false, 
+    email: false, 
+    password: false, 
+    confirmPassword: false 
+  });
+
   const errors = {
     name: registerData?.name ? "" : "Ingresa tu nombre",
     lastName: registerData?.lastName ? "" : "Ingresa tu apellido",
     secondLastName: registerData?.secondLastName ? "" : "Ingresa tu segundo apellido",
     phone: registerData?.phone ? "" : "Ingresa tu teléfono",
-    idNumber: registerData?.idNumber ? "" : "Ingresa tu cédula",
+    username: registerData?.username ? "" : "Ingresa tu nombre de usuario",
     email: registerData?.email ? "" : "Ingresa tu correo",
     password: !registerData?.password
       ? "Ingresa una contraseña"
@@ -32,16 +52,24 @@ function RegisterForm({
           : ""
         : "Confirma tu contraseña",
   };
+
   const handleBlur = (e) => {
     const { name } = e.target;
-    setTouched((t) => ({ ...t, [name]: true }));
+    setTouched(prev => ({ ...prev, [name]: true }));
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(e);
+  };
+
   return (
-    <form onSubmit={onSubmit}>
-      <h2>Crear cuenta</h2>
-      <p style={{ color: '#666' }}>Completa los campos para registrarte.</p>
+    <form className="register-form" onSubmit={handleSubmit}>
+      <h2 className="register-title">Crear cuenta</h2>
+      <p className="register-subtitle">Completa los campos para registrarte.</p>
+      
       {message?.text && (
-        <div role="status" aria-live="polite" style={{ marginBottom: 10, color: '#b91c1c' }}>
+        <div className="register-message" role="status" aria-live="polite">
           {message.text}
         </div>
       )}
@@ -58,10 +86,13 @@ function RegisterForm({
           onBlur={handleBlur}
           disabled={loading}
           required
+          className="form-input"
         />
       </div>
       {touched.name && errors.name && (
-        <div role="alert" style={{ color: '#b91c1c', marginTop: -8, marginBottom: 8 }}>{errors.name}</div>
+        <div className="error-message" role="alert">
+          {errors.name}
+        </div>
       )}
 
       <div className="grid-two">
@@ -76,6 +107,7 @@ function RegisterForm({
             onChange={onChange}
             onBlur={handleBlur}
             disabled={loading}
+            className="form-input"
           />
         </div>
         <div className="field">
@@ -89,6 +121,7 @@ function RegisterForm({
             onChange={onChange}
             onBlur={handleBlur}
             disabled={loading}
+            className="form-input"
           />
         </div>
       </div>
@@ -105,19 +138,21 @@ function RegisterForm({
             onChange={onChange}
             onBlur={handleBlur}
             disabled={loading}
+            className="form-input"
           />
         </div>
         <div className="field">
-          <label htmlFor="idNumber">Cédula</label>
+          <label htmlFor="username">Nombre de usuario</label>
           <input
-            id="idNumber"
+            id="username"
             type="text"
-            name="idNumber"
-            placeholder="Cédula"
-            value={registerData?.idNumber || ""}
+            name="username"
+            placeholder="Nombre de usuario"
+            value={registerData?.username || ""}
             onChange={onChange}
             onBlur={handleBlur}
             disabled={loading}
+            className="form-input"
           />
         </div>
       </div>
@@ -134,80 +169,89 @@ function RegisterForm({
           onBlur={handleBlur}
           disabled={loading}
           required
+          className="form-input"
         />
       </div>
       {touched.email && errors.email && (
-        <div role="alert" style={{ color: '#b91c1c', marginTop: -8, marginBottom: 8 }}>{errors.email}</div>
+        <div className="error-message" role="alert">
+          {errors.email}
+        </div>
       )}
 
-      <div className="field" style={{ position: 'relative', marginBottom: 8 }}>
+      <div className="field password-field">
         <label htmlFor="password">Contraseña</label>
-        <input
-          id="password"
-          type={showPassword ? "text" : "password"}
-          name="password"
-          placeholder="Contraseña"
-          value={registerData?.password || ""}
-          onChange={onChange}
-          onBlur={handleBlur}
-          disabled={loading}
-          required
-        />
-        <button
-          type="button"
-          className="input-eye"
-          onClick={onTogglePassword}
-          disabled={loading}
-          aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-          title={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-        >
-          {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-        </button>
+        <div className="input-with-icon">
+          <input
+            id="password"
+            type={showPassword ? "text" : "password"}
+            name="password"
+            placeholder="Contraseña"
+            value={registerData?.password || ""}
+            onChange={onChange}
+            onBlur={handleBlur}
+            disabled={loading}
+            required
+            className="form-input"
+          />
+          <button
+            type="button"
+            className="input-eye"
+            onClick={onTogglePassword}
+            disabled={loading}
+            aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+            title={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+          >
+            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+          </button>
+        </div>
+        {touched.password && errors.password && (
+          <div className="error-message">
+            {errors.password}
+          </div>
+        )}
       </div>
-      {touched.password && errors.password && (
-        <div role="alert" style={{ color: '#b91c1c', marginTop: -8, marginBottom: 8 }}>{errors.password}</div>
-      )}
 
-      <div className="field" style={{ position: 'relative' }}>
+      <div className="field password-field">
         <label htmlFor="confirmPassword">Confirmar contraseña</label>
-        <input
-          id="confirmPassword"
-          type={showConfirmPassword ? "text" : "password"}
-          name="confirmPassword"
-          placeholder="Confirmar contraseña"
-          value={registerData?.confirmPassword || ""}
-          onChange={onChange}
-          onBlur={handleBlur}
-          disabled={loading}
-          required
-        />
-        <button
-          type="button"
-          className="input-eye"
-          onClick={onToggleConfirmPassword}
-          disabled={loading}
-          aria-label={showConfirmPassword ? 'Ocultar confirmación' : 'Mostrar confirmación'}
-          title={showConfirmPassword ? 'Ocultar confirmación' : 'Mostrar confirmación'}
-        >
-          {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-        </button>
+        <div className="input-with-icon">
+          <input
+            id="confirmPassword"
+            type={showConfirmPassword ? "text" : "password"}
+            name="confirmPassword"
+            placeholder="Confirmar contraseña"
+            value={registerData?.confirmPassword || ""}
+            onChange={onChange}
+            onBlur={handleBlur}
+            disabled={loading}
+            required
+            className="form-input"
+          />
+          <button
+            type="button"
+            className="input-eye"
+            onClick={onToggleConfirmPassword}
+            disabled={loading}
+            aria-label={showConfirmPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+            title={showConfirmPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+          >
+            {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+          </button>
+        </div>
+        {touched.confirmPassword && errors.confirmPassword && (
+          <div className="error-message">
+            {errors.confirmPassword}
+          </div>
+        )}
       </div>
-      {touched.confirmPassword && errors.confirmPassword && (
-        <div role="alert" style={{ color: '#b91c1c', marginTop: -8, marginBottom: 8 }}>{errors.confirmPassword}</div>
-      )}
 
-      <button type="submit" className="btn primary" disabled={loading}>
+      <button 
+        type="submit" 
+        className="btn primary submit-btn" 
+        disabled={loading}
+      >
         {loading ? "Creando cuenta..." : "Crear cuenta"}
       </button>
-
-      <div style={{ marginTop: 12 }}>
-        <button type="button" className="btn secondary" onClick={onSwitchToLogin} disabled={loading}>
-          <ArrowLeft style={{ width: 16, height: 16, verticalAlign: 'middle', marginRight: 6 }} />
-          Iniciar sesión
-        </button>
-      </div>
     </form>
   );
 }
-
 export default RegisterForm;

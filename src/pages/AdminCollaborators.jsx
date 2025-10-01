@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import Header from '../components/Admin/Header'
-import '../styles/admin/UsersTable.css'
+import '../styles/admin/Admin.css'
 
 function AdminCollaborators() {
   const [rows, setRows] = useState([])
@@ -84,7 +83,6 @@ function AdminCollaborators() {
   return (
     <div className="admin-app">
       <main className="admin-main">
-        <Header title="Gestión de Colaboradores" />
         <div className="admin-content">
           <section className="users-section">
             <h2 className="users-section__title">Colaboradores</h2>

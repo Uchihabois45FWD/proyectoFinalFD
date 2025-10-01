@@ -53,16 +53,6 @@ function LoginForm({
       <button type="submit" className="btn primary" disabled={loading}>
         {loading ? 'Entrando...' : 'Iniciar sesión'}
       </button>
-
-      <div style={{ marginTop: 12 }}>
-        <button
-          type="button"
-          className="btn secondary"
-          onClick={onSwitchToRegister}
-        >
-          Crear cuenta
-        </button>
-      </div>
     </form>
   )
 }

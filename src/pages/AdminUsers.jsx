@@ -1,5 +1,6 @@
 import React from 'react'
 import Header from '../components/Admin/Header'
+import '../styles/admin/Admin.css'
 import UsersTable from '../components/Admin/UsersTable'
 
 function AdminUsers() {

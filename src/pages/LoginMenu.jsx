@@ -121,7 +121,6 @@ function LoginMenu() {
             onChange={handleLoginChange}
             onSubmit={handleLoginSubmit}
             onTogglePassword={() => setShowLoginPassword((v) => !v)}
-            onSwitchToRegister={() => setMode('register')}
           />
         </div>
 
@@ -136,7 +135,6 @@ function LoginMenu() {
             onSubmit={handleRegisterSubmit}
             onTogglePassword={() => setShowRegPassword((v) => !v)}
             onToggleConfirmPassword={() => setShowRegConfirmPassword((v) => !v)}
-            onSwitchToLogin={() => setMode('login')}
           />
         </div>
       </div>

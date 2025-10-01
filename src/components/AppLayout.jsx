@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from './Navbar'
-import '../styles/global.css'
+import '../styles/admin/Admin.css'
 
 function AppLayout({ children }) {
   const isAuthPage = typeof window !== 'undefined' && (window.location.pathname === '/LoginMenu' || window.location.pathname === '/RegisterForm')

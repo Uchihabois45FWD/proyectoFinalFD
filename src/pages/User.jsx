@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
-import { authService } from '../services/AuthServices.jsx'
-import { eventsService } from '../services/EventsService.jsx'
-import '../styles/pages/UserProfile.css'
+import React, { useEffect, useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { authService } from '../services/AuthServices.jsx';
+import { eventsService } from '../services/EventsService.jsx';
+import '../styles/pages/UserProfile.css';
 
 function User() {
   const navigate = useNavigate()
@@ -10,6 +10,9 @@ function User() {
   const [saved, setSaved] = useState([])
   const [loadingSaved, setLoadingSaved] = useState(false)
   const [errorSaved, setErrorSaved] = useState(null)
+  const [username, setUsername] = useState('')
+  const [photo, setPhoto] = useState(null)
+  const [photoPreview, setPhotoPreview] = useState(null)
 
   useEffect(() => {
     const u = authService.getCurrentUser()
@@ -17,6 +20,8 @@ function User() {
       navigate('/')
     } else {
       setUser(u)
+      setUsername(u.username || '')
+      setPhotoPreview(u.photo || null)
     }
   }, [navigate])
 
@@ -65,8 +70,44 @@ function User() {
     navigate('/')
   }
 
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      setPhoto(file)
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setPhotoPreview(reader.result)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value)
+  }
+
+  const handleSaveProfile = async () => {
+    if (!user) return;
+    try {
+      const updatedUser = {
+        ...user,
+        username,
+      };
+      if (photo) {
+        // For simplicity, store photo as base64 string in user.photo
+        updatedUser.photo = photoPreview;
+      }
+      const updated = await authService.updateUser(updatedUser);
+      setUser(updated);
+      alert('Perfil actualizado correctamente');
+    } catch (error) {
+      console.error('Error al actualizar el perfil:', error);
+      alert('Error al actualizar el perfil. Por favor, inténtalo de nuevo.');
+    }
+  };
+
   return (
-    <div style={{ padding: 24, background: '#f8fafc', minHeight: '100vh' }}>
+    <div className="user-profile">
       <section className="profile-card">
         <div className="profile-header">
           <h1 className="profile-title">{user?.name || 'Usuario'}</h1>
@@ -75,6 +116,17 @@ function User() {
           </p>
         </div>
         <div className="profile-grid">
+          <div className="profile-item profile-photo-item">
+            <div className="profile-label">Foto de Perfil:</div>
+            <div className="profile-value">
+              {photoPreview ? (
+                <img src={photoPreview} alt="Foto de Perfil" className="profile-photo" />
+              ) : (
+                <div className="profile-photo-placeholder">Sin foto</div>
+              )}
+              <input type="file" accept="image/*" onChange={handlePhotoChange} />
+            </div>
+          </div>
           <div className="profile-item">
             <div className="profile-label">Nombre:</div>
             <div className="profile-value">{(user?.name || '-').split(' ')[0]}</div>
@@ -88,63 +140,98 @@ function User() {
             <div className="profile-value">{user?.secondLastName || (user?.name ? (user.name.split(' ')[2] || '-') : '-')}</div>
           </div>
           <div className="profile-item">
-            <div className="profile-label">Correo electrónico:</div>
+            <div className="profile-label">Correo electr nico:</div>
             <div className="profile-value">{user?.email || '-'}</div>
           </div>
           <div className="profile-item">
-            <div className="profile-label">Teléfono:</div>
+            <div className="profile-label">Telefono:</div>
             <div className="profile-value">{user?.phone || '-'}</div>
           </div>
           <div className="profile-item">
-            <div className="profile-label">Cédula:</div>
-            <div className="profile-value">{user?.idNumber || '-'}</div>
+            <div className="profile-label">Usuario:</div>
+            <div className="profile-value">{user?.username || '-'}</div>
           </div>
+        </div>
+        <div className="profile-actions">
+          <button className="btn btn--primary" onClick={handleSaveProfile}>Guardar cambios</button>
         </div>
       </section>
 
-      <div style={{ margin: '12px 0' }}>
-        <Link to="/Events">Ver eventos aprobados</Link>
+      <div className="profile-actions">
+        <Link to="/Events" className="events-link">Ver eventos aprobados</Link>
       </div>
 
       {user?.role === 'user' && (
-        <section style={{ marginTop: 24 }}>
-          <h2 style={{ marginBottom: 12 }}>Eventos guardados</h2>
-          {loadingSaved && <div>Cargando tus eventos guardados...</div>}
-          {errorSaved && <div style={{ color: '#b91c1c' }}>{errorSaved}</div>}
+        <section className="saved-events">
+          <h2 className="section-title">Eventos guardados</h2>
+          {loadingSaved && <div className="loading-message">Cargando tus eventos guardados...</div>}
+          {errorSaved && <div className="error-message">{errorSaved}</div>}
           {!loadingSaved && !errorSaved && (
             saved.length === 0 ? (
-              <p>No tienes eventos guardados.</p>
+              <p className="no-events">No tienes eventos guardados.</p>
             ) : (
-              <div style={{ overflowX: 'auto' }}>
-                <table className="table" style={{ minWidth: 600 }}>
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Título</th>
-                      <th>Fecha</th>
-                      <th>Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {saved.map(ev => (
-                      <tr key={ev.id}>
-                        <td>{ev.id}</td>
-                        <td>{ev.title || '(Sin título)'}</td>
-                        <td>{ev.date ? new Date(ev.date).toLocaleString() : '-'}</td>
-                        <td style={{ display: 'flex', gap: 8 }}>
-                          <Link to={`/Events/${ev.id}`}>Ver</Link>
-                          <button className="btn btn--small btn--danger" onClick={() => removeSaved(ev.id)}>Quitar</button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div className="events-grid">
+                {saved.map(ev => {
+                  const eventDate = ev.date ? new Date(ev.date) : null;
+                  const formattedDate = eventDate ? eventDate.toLocaleDateString('es-ES', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    weekday: 'long'
+                  }) : '-';
+                  const formattedTime = eventDate ? eventDate.toLocaleTimeString('es-ES', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  }) : '';
+
+                  return (
+                    <div key={ev.id} className="event-card">
+                      <div className="event-header">
+                        <div className="event-date">{formattedDate}</div>
+                        <h3 className="event-title">{ev.title || 'Evento sin título'}</h3>
+                        {ev.location?.address && (
+                          <div className="event-location">
+                            📍 {ev.location.address}
+                          </div>
+                        )}
+                      </div>
+                      <div className="event-details">
+                        <div className="event-meta">
+                          {formattedTime && (
+                            <span className="event-time">
+                              🕒 {formattedTime} hs
+                            </span>
+                          )}
+                          <span className="event-id">ID: {ev.id}</span>
+                        </div>
+                      </div>
+                      <div className="event-actions">
+                        <Link
+                          to={`/Events/${ev.id}`}
+                          className="action-button view-button"
+                          title="Ver detalles del evento"
+                          aria-label={`Ver detalles de ${ev.title || 'este evento'}`}
+                        >
+                          👁️ Ver detalles
+                        </Link>
+                        <button
+                          type="button"
+                          className="action-button remove-button"
+                          onClick={() => removeSaved(ev.id)}
+                          title="Quitar de guardados"
+                          aria-label={`Quitar ${ev.title || 'este evento'} de guardados`}
+                        >
+                          🗑️ Quitar
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             )
           )}
         </section>
       )}
-      <button onClick={handleLogout}>Cerrar sesión</button>
     </div>
   )
 }

@@ -26,12 +26,15 @@
 .container {
   width: 80%;
   max-width: 100%;
-  height: 500px;
+  min-height: 500px; /* Altura mínima */
+  height: auto; /* Se ajusta al contenido */
   background-color: var(--card-background);
   border-radius: 40px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
   position: relative;
   overflow: hidden;
+  display: flex; /* Para que el contenedor se ajuste al contenido */
+  align-items: stretch; /* Para que los hijos se estiren verticalmente */
 }
 
 /* Hero Panel */
@@ -94,7 +97,7 @@
 
 /* Sign In Panel - visible by default at the right half */
 .form-panel.sign-in {
-  left: 450px;
+  left: 500px;
   opacity: 1;
   z-index: 50;
 }
@@ -174,7 +177,7 @@
 .btn + .btn { margin-top: 12px; }
 
 /* Sign Up Panel - Inicial OCULTO */
-.form-panel.sign-up {
+.form-panelregister {
   left: 50%;
   opacity: 0;
   z-index: 1;
@@ -204,29 +207,19 @@
   background-color: #17b3a7;
 }
 
-.btn.secondary {
-  background-color: var(--cta-secondary-bg);
-  color: var(--hero-text);
-  border: 2px solid var(--cta-secondary-border);
-}
-
-.btn.secondary:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
 /* Active State - Cuando se hace clic en SIGN UP */
 .container.active .hero-panel {
   left: 50%;
   border-radius: 0 40px 40px 0;
 }
 
-.container.active .form-panel.sign-in {
+.container.active .form-panel {
   left: -50%;
   opacity: 0;
   z-index: 1;
 }
 
-.container.active .form-panel.sign-up {
+.container.active .form-panelregister {
   left: 0;
   opacity: 1;
   z-index: 50;
@@ -259,19 +252,19 @@
     opacity: 1 !important;
   }
 
-  .form-panel.sign-in {
+  .form-panel {
     display: block;
   }
 
-  .form-panel.sign-up {
+  .form-panelregister {
     display: none;
   }
 
-  .container.active .form-panel.sign-in {
+  .container.active .form-panel {
     display: none;
   }
 
-  .container.active .form-panel.sign-up {
+  .container.active .form-panelregister {
     display: block;
   }
 }

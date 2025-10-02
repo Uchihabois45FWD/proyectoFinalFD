@@ -1,22 +1,24 @@
 import React, { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { authService } from '../services/AuthServices'
+import { authService } from '../services/AuthServices' // Servicio de autenticación
 import '../styles/Navbar.css'
 
 function Navbar() {
-  const navigate = useNavigate()
-  const user = authService.getCurrentUser()
-  const isAuth = authService.isAuthenticated()
-  const isAdmin = authService.isAdmin()
-  const isUser = authService.isUser()
-  const isColab = authService.isCollaborator()
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const navigate = useNavigate() // Hook para navegación programática
+  const user = authService.getCurrentUser() // Obtiene usuario actual
+  const isAuth = authService.isAuthenticated() // Verifica si está autenticado
+  const isAdmin = authService.isAdmin() // Verifica si es administrador
+  const isUser = authService.isUser() // Verifica si es usuario regular
+  const isColab = authService.isCollaborator() // Verifica si es colaborador
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false) // Estado del menú móvil
 
+  // Función para cerrar sesión y redirigir al login
   const handleLogout = () => {
     authService.logout()
     navigate('/')
   }
 
+  // Función para alternar el menú móvil
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen)
   }

@@ -1,15 +1,17 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001';
+const API_URL = 'http://localhost:3001'; // URL base del servidor JSON
 
+// Configuración de axios con interceptores para manejo de errores
 const api = axios.create({
   baseURL: API_URL,
-  timeout: 10000,
+  timeout: 10000, // Timeout de 10 segundos
   headers: {
     'Content-Type': 'application/json',
   }
 });
 
+// Interceptor para manejar respuestas y errores de la API
 api.interceptors.response.use(
   (response) => response,
   (error) => {

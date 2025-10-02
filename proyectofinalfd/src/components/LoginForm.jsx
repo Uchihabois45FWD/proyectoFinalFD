@@ -1,6 +1,22 @@
+/**
+ * Componente de formulario de inicio de sesión.
+ * Maneja la interfaz de usuario para que los usuarios puedan ingresar sus credenciales.
+ * Incluye validación básica, visibilidad de contraseña y manejo de mensajes de error.
+ */
 import React from 'react'
 import { Eye, EyeOff } from 'lucide-react'
 
+/**
+ * Props del componente LoginForm:
+ * - loginData: Objeto con email y password del usuario
+ * - showPassword: Booleano para mostrar/ocultar contraseña
+ * - loading: Estado de carga durante el envío
+ * - message: Objeto con texto de mensaje de error o éxito
+ * - onChange: Función para manejar cambios en los inputs
+ * - onSubmit: Función para manejar el envío del formulario
+ * - onTogglePassword: Función para alternar visibilidad de contraseña
+ * - onSwitchToRegister: Función para cambiar a formulario de registro
+ */
 function LoginForm({
   loginData,
   showPassword,

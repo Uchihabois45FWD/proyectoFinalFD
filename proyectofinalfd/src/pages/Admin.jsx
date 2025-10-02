@@ -1,3 +1,8 @@
+/**
+ * Página principal del panel de administración.
+ * Controla el acceso restringido solo a usuarios con rol de administrador.
+ * Renderiza componentes de estadísticas y gestión administrativa.
+ */
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { authService } from '../services/AuthServices.jsx' // Servicio de autenticación
@@ -5,7 +10,8 @@ import StatsCards from '../components/Admin/StatsCards' // Componente de estadí
 import '../styles/admin/Admin.css'
 
 function Admin() {
-  const navigate = useNavigate() // Hook para navegación
+  // Hook para controlar la navegación programática
+  const navigate = useNavigate()
 
   // Verifica permisos de administrador al cargar el componente
   useEffect(() => {

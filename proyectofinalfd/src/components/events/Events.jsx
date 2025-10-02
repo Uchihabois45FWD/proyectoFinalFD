@@ -1,3 +1,8 @@
+/**
+ * Componente principal para la gestión y visualización de eventos.
+ * Permite a los usuarios y administradores ver, filtrar y gestionar eventos.
+ * Incluye una tabla de eventos, filtros avanzados y un mapa interactivo para usuarios.
+ */
 import React, { useEffect, useState } from 'react'
 import { authService } from '../../services/AuthServices.jsx'
 import { eventsService } from '../../services/EventsService.jsx'
@@ -7,11 +12,27 @@ import 'leaflet/dist/leaflet.css'
 import '../../styles/events/Events.css'
 
 function Events() {
+  // Estado para almacenar la lista de eventos cargados
   const [rows, setRows] = useState([])
+  // Estado para indicar si se están cargando los datos
   const [loading, setLoading] = useState(true)
+  // Estado para manejar errores durante la carga
   const [error, setError] = useState(null)
+  // Determina si el usuario actual es un usuario regular (no admin/colaborador)
   const isUser = authService.isUser()
-  const [filters, setFilters] = useState({ q: '', from: '', to: '' })
+  // Estado para los filtros de búsqueda aplicados a los eventos
+  const [filters, setFilters] = useState({
+    q: '', // Búsqueda por palabra clave
+    from: '', // Fecha desde
+    to: '', // Fecha hasta
+    location: '', // Ubicación (provincia/ciudad)
+    game: '', // Juego/categoría
+    type: '', // Tipo/formato
+    priceMin: '', // Precio mínimo
+    priceMax: '', // Precio máximo
+    modality: '', // Modalidad
+    organizer: '' // Organizador
+  })
 
   const load = async () => {
     setLoading(true)
@@ -36,26 +57,112 @@ function Events() {
     setFilters(prev => ({ ...prev, [name]: value }))
   }
 
+  const clearFilters = () => {
+    setFilters({
+      q: '',
+      from: '',
+      to: '',
+      location: '',
+      game: '',
+      type: '',
+      priceMin: '',
+      priceMax: '',
+      modality: '',
+      organizer: ''
+    })
+  }
+
   const applyFilters = (list) => {
     let result = Array.isArray(list) ? list : []
+
     // Users: solo eventos aprobados
     if (isUser) {
       result = result.filter(ev => (ev.status || 'pending') === 'approved')
     }
-    // Búsqueda por título
+
+    // Búsqueda por palabra clave (título, descripción, categoría)
     if (filters.q) {
       const q = filters.q.toLowerCase()
-      result = result.filter(ev => (ev.title || '').toLowerCase().includes(q))
+      result = result.filter(ev =>
+        (ev.title || '').toLowerCase().includes(q) ||
+        (ev.description || '').toLowerCase().includes(q) ||
+        (ev.category || '').toLowerCase().includes(q)
+      )
     }
+
     // Filtro por rango de fechas
     if (filters.from) {
       const fromTs = new Date(filters.from).getTime()
-      result = result.filter(ev => ev.date && new Date(ev.date).getTime() >= fromTs)
+      result = result.filter(ev => {
+        const eventDate = ev.date || ev.startDate
+        return eventDate && new Date(eventDate).getTime() >= fromTs
+      })
     }
     if (filters.to) {
       const toTs = new Date(filters.to).getTime()
-      result = result.filter(ev => ev.date && new Date(ev.date).getTime() <= toTs)
+      result = result.filter(ev => {
+        const eventDate = ev.date || ev.startDate
+        return eventDate && new Date(eventDate).getTime() <= toTs
+      })
     }
+
+    // Filtro por ubicación (provincia/ciudad)
+    if (filters.location) {
+      const location = filters.location.toLowerCase()
+      result = result.filter(ev =>
+        (ev.location?.address || '').toLowerCase().includes(location)
+      )
+    }
+
+    // Filtro por juego/categoría
+    if (filters.game) {
+      const game = filters.game.toLowerCase()
+      result = result.filter(ev =>
+        (ev.category || '').toLowerCase().includes(game)
+      )
+    }
+
+    // Filtro por tipo/formato
+    if (filters.type) {
+      const type = filters.type.toLowerCase()
+      result = result.filter(ev =>
+        (ev.format || '').toLowerCase().includes(type) ||
+        (ev.category || '').toLowerCase().includes(type)
+      )
+    }
+
+    // Filtro por precio
+    if (filters.priceMin) {
+      const minPrice = parseFloat(filters.priceMin)
+      result = result.filter(ev => {
+        const price = parseFloat(ev.price) || 0
+        return price >= minPrice
+      })
+    }
+    if (filters.priceMax) {
+      const maxPrice = parseFloat(filters.priceMax)
+      result = result.filter(ev => {
+        const price = parseFloat(ev.price) || 0
+        return price <= maxPrice
+      })
+    }
+
+    // Filtro por modalidad
+    if (filters.modality) {
+      const modality = filters.modality.toLowerCase()
+      result = result.filter(ev =>
+        (ev.modality || '').toLowerCase().includes(modality)
+      )
+    }
+
+    // Filtro por organizador
+    if (filters.organizer) {
+      const organizer = filters.organizer.toLowerCase()
+      result = result.filter(ev =>
+        (ev.requester || '').toLowerCase().includes(organizer)
+      )
+    }
+
     return result
   }
 
@@ -66,29 +173,143 @@ function Events() {
       <h1>{isUser ? 'Eventos Aprobados' : 'Eventos'}</h1>
       {isUser && (
         <div className="events-filters">
-          <input
-            name="q"
-            value={filters.q}
-            onChange={onFilterChange}
-            placeholder="Buscar por título"
-            className="events-input"
-          />
-          <label className="events-filter-label">Desde</label>
-          <input
-            type="datetime-local"
-            name="from"
-            value={filters.from}
-            onChange={onFilterChange}
-            className="events-input"
-          />
-          <label className="events-filter-label">Hasta</label>
-          <input
-            type="datetime-local"
-            name="to"
-            value={filters.to}
-            onChange={onFilterChange}
-            className="events-input"
-          />
+          <div className="filters-header">
+            <h3>Filtros de Búsqueda</h3>
+            <button onClick={clearFilters} className="btn btn--secondary">Limpiar Filtros</button>
+          </div>
+
+          <div className="filters-grid">
+            {/* Búsqueda por palabra clave */}
+            <div className="filter-group">
+              <label className="filter-label">Buscar</label>
+              <input
+                name="q"
+                value={filters.q}
+                onChange={onFilterChange}
+                placeholder="Título, descripción o categoría"
+                className="events-input"
+              />
+            </div>
+
+            {/* Fechas */}
+            <div className="filter-group">
+              <label className="filter-label">Fecha Desde</label>
+              <input
+                type="datetime-local"
+                name="from"
+                value={filters.from}
+                onChange={onFilterChange}
+                className="events-input"
+              />
+            </div>
+
+            <div className="filter-group">
+              <label className="filter-label">Fecha Hasta</label>
+              <input
+                type="datetime-local"
+                name="to"
+                value={filters.to}
+                onChange={onFilterChange}
+                className="events-input"
+              />
+            </div>
+
+            {/* Ubicación */}
+            <div className="filter-group">
+              <label className="filter-label">Ubicación</label>
+              <input
+                name="location"
+                value={filters.location}
+                onChange={onFilterChange}
+                placeholder="Provincia o ciudad"
+                className="events-input"
+              />
+            </div>
+
+            {/* Juego */}
+            <div className="filter-group">
+              <label className="filter-label">Juego</label>
+              <input
+                name="game"
+                value={filters.game}
+                onChange={onFilterChange}
+                placeholder="Ej: Smash Bros, FIFA..."
+                className="events-input"
+              />
+            </div>
+
+            {/* Tipo */}
+            <div className="filter-group">
+              <label className="filter-label">Tipo</label>
+              <select
+                name="type"
+                value={filters.type}
+                onChange={onFilterChange}
+                className="events-input"
+              >
+                <option value="">Todos</option>
+                <option value="individual">Individual</option>
+                <option value="equipo">Por Equipos</option>
+                <option value="torneo">Torneo</option>
+                <option value="competencia">Competencia</option>
+              </select>
+            </div>
+
+            {/* Precio */}
+            <div className="filter-group">
+              <label className="filter-label">Precio Mínimo</label>
+              <input
+                type="number"
+                name="priceMin"
+                value={filters.priceMin}
+                onChange={onFilterChange}
+                placeholder="0"
+                min="0"
+                className="events-input"
+              />
+            </div>
+
+            <div className="filter-group">
+              <label className="filter-label">Precio Máximo</label>
+              <input
+                type="number"
+                name="priceMax"
+                value={filters.priceMax}
+                onChange={onFilterChange}
+                placeholder="Sin límite"
+                min="0"
+                className="events-input"
+              />
+            </div>
+
+            {/* Modalidad */}
+            <div className="filter-group">
+              <label className="filter-label">Modalidad</label>
+              <select
+                name="modality"
+                value={filters.modality}
+                onChange={onFilterChange}
+                className="events-input"
+              >
+                <option value="">Todas</option>
+                <option value="presencial">Presencial</option>
+                <option value="virtual">Virtual</option>
+                <option value="hibrida">Híbrida</option>
+              </select>
+            </div>
+
+            {/* Organizador */}
+            <div className="filter-group">
+              <label className="filter-label">Organizador</label>
+              <input
+                name="organizer"
+                value={filters.organizer}
+                onChange={onFilterChange}
+                placeholder="Email del organizador"
+                className="events-input"
+              />
+            </div>
+          </div>
         </div>
       )}
 

@@ -1,3 +1,8 @@
+/**
+ * Componente de rutas principales de la aplicación.
+ * Define rutas públicas y protegidas con control de acceso basado en roles.
+ * Utiliza react-router-dom para la navegación y protección de rutas.
+ */
 import React from 'react'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 import LoginMenu from '../pages/LoginMenu' // Página de login/registro
@@ -15,7 +20,7 @@ import AdminEvents from '../pages/AdminEvents' // Gestión de eventos por admin
 import PageBackground from '../components/PageBackground' // Componente de fondo dinámico
 
 function Routing() {
-  // Ruta protegida básica - requiere autenticación
+  // Ruta protegida - requiere autenticación
   const ProtectedRoute = ({ children }) => {
     return authService.isAuthenticated() ? children : <Navigate to="/" replace />
   }

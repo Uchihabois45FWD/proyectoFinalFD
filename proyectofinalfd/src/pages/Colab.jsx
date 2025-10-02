@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { authService } from '../services/AuthServices.jsx'
 import EventForm from '../components/Admin/EventForm.jsx'
 import { eventsService } from '../services/EventsService.jsx'
+import '../styles/pages/Colab.css'
 
 function Colab() {
   const navigate = useNavigate()
@@ -109,30 +110,23 @@ function Colab() {
   }
 
   return (
-    <div style={{ padding: 24 }}>
-      <h1>Zona de Colaboradores</h1>
+    <div className="colab-container">
+      <h1 className="colab-header">Zona de Colaboradores</h1>
       {user && (
-        <p>
+        <p className="colab-welcome">
           Hola{user.name ? `, ${user.name}` : ''}. Acceso otorgado para correo colaborador: <strong>{user.email}</strong>
         </p>
       )}
       {message?.text && (
-        <div style={{
-          margin: '12px 0',
-          padding: '8px 12px',
-          borderRadius: 6,
-          color: message.type === 'error' ? '#991b1b' : '#065f46',
-          background: message.type === 'error' ? '#fef2f2' : '#ecfdf5',
-          border: `1px solid ${message.type === 'error' ? '#fecaca' : '#a7f3d0'}`
-        }}>
+        <div className={`message ${message.type === 'error' ? 'error' : 'success'}`}>
           {message.text}
         </div>
       )}
 
       {!showForm ? (
-        <div style={{ display: 'flex', gap: 12, marginBottom: 16 }}>
-          <button onClick={() => setShowForm(true)} className="btn btn--primary">Nuevo Evento</button>
-          <button onClick={handleLogout} className="btn btn--outline">Cerrar sesión</button>
+        <div className="button-group">
+          <button onClick={() => setShowForm(true)} className="btn">Nuevo Evento</button>
+          <button onClick={handleLogout} className="btn">Cerrar sesión</button>
         </div>
       ) : (
         <EventForm
@@ -144,15 +138,15 @@ function Colab() {
       )}
 
       <h2 style={{ marginTop: 24 }}>Mis eventos</h2>
-      <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 12, flexWrap: 'wrap' }}>
-        <label style={{ fontWeight: 500 }}>Filtrar por estado:</label>
+      <div className="view-filter">
+        <label>Filtrar por estado:</label>
         <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="view-selector">
           <option value="all">Todos</option>
           <option value="pending">Pendientes</option>
           <option value="approved">Aprobados</option>
           <option value="rejected">Rechazados</option>
         </select>
-        <button className="btn btn--secondary" onClick={() => {
+        <button className="btn" onClick={() => {
           if (!user) return
           (async () => {
             try {
@@ -175,15 +169,15 @@ function Colab() {
         rows.length === 0 ? (
           <div>No has creado eventos.</div>
         ) : (
-          <div style={{ overflowX: 'auto' }}>
-            <table className="table" style={{ minWidth: 600 }}>
+          <div className="table-wrapper">
+            <table className="table">
               <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Título</th>
-                  <th>Fecha</th>
-                  <th>Estado</th>
-                  <th>Ver</th>
+                <tr className="thead-row">
+                  <th className="th">ID</th>
+                  <th className="th">Título</th>
+                  <th className="th">Fecha</th>
+                  <th className="th">Estado</th>
+                  <th className="th">Ver</th>
                 </tr>
               </thead>
               <tbody>
@@ -196,10 +190,10 @@ function Colab() {
                   })
                   .map(ev => (
                   <tr key={ev.id}>
-                    <td>{ev.id}</td>
-                    <td>{ev.title || '(Sin título)'}</td>
-                    <td>{ev.date ? new Date(ev.date).toLocaleString() : '-'}</td>
-                    <td>
+                    <td className="td">{ev.id}</td>
+                    <td className="td">{ev.title || '(Sin título)'}</td>
+                    <td className="td">{ev.date ? new Date(ev.date).toLocaleString() : '-'}</td>
+                    <td className="td">
                       <span style={{
                         display: 'inline-block',
                         padding: '2px 8px',
@@ -221,16 +215,16 @@ function Colab() {
                           : 'Pendiente'}
                       </span>
                     </td>
-                    <td style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                    <td className="td" style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                       <Link to={`/Events/${ev.id}`}>Detalles</Link>
                       <button
-                        className="btn btn--small"
+                        className="btn btn-small"
                         onClick={() => handleEdit(ev)}
                         disabled={(ev.status || 'pending') === 'approved'}
                         title={(ev.status || 'pending') === 'approved' ? 'No editable' : 'Editar'}
                       >✏️</button>
                       <button
-                        className="btn btn--small btn--danger"
+                        className="btn btn-small btn-danger"
                         onClick={() => handleDelete(ev)}
                         disabled={(ev.status || 'pending') === 'approved'}
                         title={(ev.status || 'pending') === 'approved' ? 'No eliminable' : 'Eliminar'}

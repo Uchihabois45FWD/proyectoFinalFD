@@ -85,7 +85,7 @@ function AdminCollaborators() {
       <main className="admin-main">
         <div className="admin-content">
           <section className="users-section">
-            <h2 className="users-section__title">Colaboradores</h2>
+            <h2 className="users-section-title">Colaboradores</h2>
             <div className="table-wrapper">
               <table className="table">
                 <thead>

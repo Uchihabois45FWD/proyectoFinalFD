@@ -82,7 +82,7 @@ function UsersTable() {
 
   return (
     <section className="users-section">
-      <h2 className="users-section__title">Usuarios</h2>
+      <h2 className="users-section-title">Usuarios</h2>
       <div className="table-wrapper">
         <table className="table">
           <thead>

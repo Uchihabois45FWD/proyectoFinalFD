@@ -1,13 +1,4 @@
-:root {
-  --gap: 1.5rem;
-  --bg: #f8fafc;
-  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-image: url("/Admin.png");
-  background-size: cover;
-  background-position: center;
-}
-
-.admin-profile {
+.user-profile {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--gap);
@@ -19,19 +10,22 @@
   color: var(--text);
   line-height: 1.6;
   box-sizing: border-box;
+  background-image: url("/User.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 
-.admin-grid {
+.profile-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit);
   gap: var(--grid-gap);
   width: 100%;
 }
 
-.admin-card {
+.profile-card {
   background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -46,7 +40,7 @@
 }
 
 /* Optional: Add a subtle gradient overlay */
-.admin-card::before {
+.profile-card::before {
   content: '';
   position: absolute;
   top: 0;
@@ -58,13 +52,13 @@
   border-radius: 16px;
 }
 
-.admin-header {
+.profile-header {
   text-align: center;
   display: grid;
   gap: 0.5rem;
 }
 
-.admin-title {
+.profile-title {
   font-size: 2rem;
   font-weight: 700;
   color: #1e293b;
@@ -73,52 +67,50 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-.admin-subtitle {
+.profile-subtitle {
   color: var(--color-text-light);
   font-size: 1rem;
   margin: 0;
 }
 
-.admin-info {
+.profile-info {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
   align-content: start;
 }
 
-.admin-item {
+.profile-item {
   display: grid;
   gap: 0.5rem;
   background: rgba(255, 255, 255, 0.6);
   padding: 1rem 1.25rem;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
   transition: all 0.3s ease;
 }
 
-.admin-item:hover {
+.profile-item:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   border-color: rgba(255, 255, 255, 0.6);
 }
 
-.admin-label {
+.profile-label {
   font-size: 0.75rem;
   color: var(--color-text-light);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
-.admin-value {
+.profile-value {
   font-weight: 500;
   color: var(--color-text);
   word-break: break-word;
   font-size: 0.95rem;
 }
 
-.admin-actions {
+.profile-actions {
   display: grid;
   gap: 1rem;
   margin-top: auto;
@@ -126,7 +118,7 @@
   border-top: 1px solid var(--color-border);
 }
 
-.admin-link {
+.events-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -142,14 +134,14 @@
   font-size: 0.95rem;
 }
 
-.admin-link:hover {
+.events-link:hover {
   background: var(--color-primary-hover);
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.admin-card,
-.admin-events {
+.profile-card,
+.saved-events {
   background: #fff;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
@@ -157,52 +149,52 @@
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.admin-section-title {
+.section-title {
   font-size: 1.5rem;
 }
 
 @media (max-width: 768px) {
-  .admin-event-actions { flex-direction: column; gap: 0.5rem; }
-  .admin-action-button, .admin-link { width: 100%; padding: 0.75rem 1rem; }
+  .event-actions { flex-direction: column; gap: 0.5rem; }
+  .action-button, .events-link { width: 100%; padding: 0.75rem 1rem; }
 }
-  .admin-action-button .button-text {
+  .action-button .button-text {
     display: none;
   }
   
-  .admin-action-button .button-icon {
+  .action-button .button-icon {
     font-size: 1.1rem;
   }
 
 
 /* Make table responsive */
 @media (max-width: 1024px) {
-  .admin-events-table {
+  .events-table {
     min-width: 700px;
   }
 }
 
 @media (max-width: 768px) {
-  .admin-events-container {
+  .events-container {
     margin: 1rem -0.5rem;
     border-radius: 0;
     border-left: none;
     border-right: none;
   }
   
-  .admin-events-table {
+  .events-table {
     min-width: 600px;
   }
 }
 
-.admin-events-table th,
-.admin-events-table td {
+.events-table th,
+.events-table td {
   padding: 1rem 1.25rem;
   text-align: left;
   border-bottom: 1px solid #edf2f7;
   vertical-align: middle;
 }
 
-.admin-events-table th {
+.events-table th {
   background-color: #f7fafc;
   font-weight: 600;
   color: #4a5568;
@@ -215,35 +207,35 @@
   z-index: 10;
 }
 
-.admin-event-row {
+.event-row {
   transition: background-color 0.2s ease;
 }
 
-.admin-event-row:hover {
+.event-row:hover {
   background-color: #f8fafc;
 }
 
 /* Add subtle border radius to first and last cells in each row */
-.admin-events-table tr:last-child td:first-child {
+.events-table tr:last-child td:first-child {
   border-bottom-left-radius: 8px;
 }
 
-.admin-events-table tr:last-child td:last-child {
+.events-table tr:last-child td:last-child {
   border-bottom-right-radius: 8px;
 }
 
 /* Add some spacing to the first and last cells */
-.admin-events-table td:first-child,
-.admin-events-table th:first-child {
+.events-table td:first-child,
+.events-table th:first-child {
   padding-left: 1.5rem;
 }
 
-.admin-events-table td:last-child,
-.admin-events-table th:last-child {
+.events-table td:last-child,
+.events-table th:last-child {
   padding-right: 1.5rem;
 }
 
-.admin-event-id {
+.event-id {
   font-family: 'SF Mono', 'Roboto Mono', Menlo, monospace;
   color: #4a5568;
   font-size: 0.8rem;
@@ -254,7 +246,7 @@
   display: inline-block;
 }
 
-.admin-event-title {
+.event-title {
   font-weight: 500;
   color: #2d3748;
   transition: color 0.2s ease;
@@ -265,7 +257,7 @@
   display: block;
 }
 
-.admin-event-date {
+.event-date {
   color: #718096;
   font-size: 0.85rem;
   white-space: nowrap;
@@ -273,21 +265,21 @@
 
 /* Make date more compact on mobile */
 @media (max-width: 768px) {
-  .admin-event-date {
+  .event-date {
     font-size: 0.8rem;
   }
 }
 
 /* Action Buttons */
-.admin-event-actions {
+.event-actions {
   display: flex;
   gap: 0.5rem;
   white-space: nowrap;
   flex-wrap: wrap;
 }
 
-.admin-action-link,
-.admin-action-button {
+.action-link,
+.action-button {
   font-size: 0.8rem;
   padding: 0.4rem 0.8rem;
   border-radius: 6px;
@@ -303,25 +295,25 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.admin-action-link {
+.action-link {
   color: #2563eb;
   background-color: #eff6ff;
   border: 1px solid #bfdbfe;
 }
 
-.admin-action-link:hover {
+.action-link:hover {
   background: #dbeafe;
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.admin-action-button {
+.action-button {
   background-color: #fff5f5;
   color: #000000f6;
   border: 1px solid #fecaca;
 }
 
-.admin-action-button:hover {
+.action-button:hover {
   background-color: #fee2e2;
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -329,13 +321,13 @@
 
 /* Responsive adjustments for action buttons */
 @media (max-width: 768px) {
-  .admin-event-actions {
+  .event-actions {
     flex-direction: column;
     gap: 0.5rem;
   }
   
-  .admin-action-link,
-  .admin-action-button {
+  .action-link,
+  .action-button {
     width: 50px;
     padding: 0.5rem;
     font-size: 0.85rem;
@@ -343,7 +335,7 @@
 }
 
 /* Loading and Error States */
-.admin-loading-message {
+.loading-message {
   color: #4b5563;
   font-size: 0.95rem;
   padding: 1.5rem;
@@ -353,7 +345,7 @@
   margin: 1rem 0;
 }
 
-.admin-error-message {
+.error-message {
   color: #b91c1c;
   background-color: #fef2f2;
   padding: 1rem;
@@ -364,7 +356,7 @@
   line-height: 1.5;
 }
 
-.admin-no-events {
+.no-events {
   color: #6b7280;
   font-style: italic;
   text-align: center;
@@ -375,14 +367,14 @@
 }
 
 /* Logout button */
-.admin-logout-container {
+.logout-container {
   text-align: center;
   margin-top: 2rem;
   padding-top: 2rem;
   border-top: 1px solid #e5e7eb;
 }
 
-.admin-btn {
+.btn {
   display: inline-block;
   padding: 0.6rem 1.5rem;
   border-radius: 6px;
@@ -394,29 +386,29 @@
   font-size: 0.95rem;
 }
 
-.admin-btn--danger {
+.btn--danger {
   background-color: #dc2626;
   color: white;
 }
 
-.admin-btn--danger:hover {
+.btn--danger:hover {
   background-color: #b91c1c;
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.admin-btn--small {
+.btn--small {
   padding: 0.35rem 0.8rem;
   font-size: 0.85rem;
 }
 
 /* Profile actions */
-.admin-actions {
+.profile-actions {
   margin: 2rem 0;
   text-align: center;
 }
 
-.admin-link {
+.events-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -431,7 +423,7 @@
   font-size: 0.95rem;
 }
 
-.admin-link:hover {
+.events-link:hover {
   background-color: #1d4ed8;
   transform: translateY(-1px);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -439,41 +431,41 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .admin-actions {
+  .profile-actions {
     margin: 1.5rem 0;
   }
   
-  .admin-link {
+  .events-link {
     width: 100%;
     padding: 0.75rem 1rem;
   }
   
-  .admin-btn {
+  .btn {
     width: 100%;
     padding: 0.75rem 1rem;
   }
 }
-.admin-no-events {
+.no-events {
   padding: 1rem;
   border-radius: 8px;
   margin: 0.5rem 0;
   text-align: center;
 }
 
-.admin-loading-message {
+.loading-message {
   background: #f0f9ff;
   color: #0369a1;
   border: 1px solid #bae6fd;
   animation: pulse 1.5s infinite;
 }
 
-.admin-error-message {
+.error-message {
   background-color: #fef2f2;
   color: #b91c1c;
   border: 1px solid #fecaca;
 }
 
-.admin-no-events {
+.no-events {
   color: #64748b;
   font-style: italic;
   text-align: center;
@@ -483,7 +475,7 @@
 }
 
 /* Logout Button */
-.admin-logout-container {
+.logout-container {
   margin-top: 2rem;
   text-align: right;
 }
@@ -496,11 +488,11 @@
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
-  .admin-profile { padding: 1rem; }
-  .admin-card,
-  .admin-events { padding: 1.25rem; }
-  .admin-grid { grid-template-columns: 1fr; }
-  .admin-event-actions { flex-direction: column; gap: 0.5rem; }
-  .admin-action-link,
-  .admin-action-button { width: 100px; text-align: center; }
+  .user-profile { padding: 1rem; }
+  .profile-card,
+  .saved-events { padding: 1.25rem; }
+  .profile-grid { grid-template-columns: 1fr; }
+  .event-actions { flex-direction: column; gap: 0.5rem; }
+  .action-link,
+  .action-button { width: 100px; text-align: center; }
 }

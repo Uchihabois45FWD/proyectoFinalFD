@@ -206,7 +206,16 @@
 .btn.primary:hover {
   background-color: #17b3a7;
 }
-
+.btn.secondary {
+  background-color: var(--cta-secondary-bg);
+  color: var(--cta-secondary-text);
+  border: 1px solid var(--cta-secondary-border);
+}
+.btn.secondary:hover {
+  background-color: var(--cta-secondary-bg);
+  color: var(--cta-secondary-text);
+  border: 1px solid var(--cta-secondary-border);
+}
 /* Active State - Cuando se hace clic en SIGN UP */
 .container.active .hero-panel {
   left: 50%;

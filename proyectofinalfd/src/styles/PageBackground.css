@@ -1,0 +1,39 @@
+.page-background {
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    width: 100%;
+  }
+
+  .page-background.user-bg {
+    background-image: url("/User.png");
+  }
+
+  .page-background.admin-bg {
+    background-image: url("/Admin.png");
+  }
+
+  .page-background.colab-bg {
+    background-image: url("/Collab.png");
+  }
+
+  .page-background.events-bg {
+    background-image: url("/Events.png");
+  }
+
+  .page-background.calendar-bg {
+    background-image: url("/Calendar.png");
+  }
+
+  .page-background.login-bg {
+    background-image: url("/Login.png");
+  }
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .page-background {
+    background-attachment: scroll; /* Remove fixed attachment on mobile for better performance */
+  }
+}

@@ -12,6 +12,7 @@ import Calendar from '../pages/Calendar'
 import AdminUsers from '../pages/AdminUsers'
 import AdminCollaborators from '../pages/AdminCollaborators'
 import AdminEvents from '../pages/AdminEvents'
+import PageBackground from '../components/PageBackground'
 
 function Routing() {
   const ProtectedRoute = ({ children }) => {
@@ -39,69 +40,99 @@ function Routing() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LoginMenu />} />
+        <Route path="/" element={
+          <PageBackground backgroundClass="login-bg">
+            <LoginMenu />
+          </PageBackground>
+        } />
+        
         <Route path="/Admin" element={
           <AdminRoute>
-            <AppLayout>
-              <Admin />
-            </AppLayout>
+            <PageBackground backgroundClass="admin-bg">
+              <AppLayout>
+                <Admin />
+              </AppLayout>
+            </PageBackground>
           </AdminRoute>
         } />
+        
         <Route path="/User" element={
           <UserRoute>
-            <AppLayout>
-              <User />
-            </AppLayout>
+            <PageBackground backgroundClass="user-bg">
+              <AppLayout>
+                <User />
+              </AppLayout>
+            </PageBackground>
           </UserRoute>
         } />
+        
         <Route path="/Calendar" element={
           <UserRoute>
-            <AppLayout>
-              <Calendar />
-            </AppLayout>
+            <PageBackground backgroundClass="calendar-bg">
+              <AppLayout>
+                <Calendar />
+              </AppLayout>
+            </PageBackground>
           </UserRoute>
         } />
+        
         <Route path="/Colab" element={
           <CollaboratorRoute>
-            <AppLayout>
-              <Colab />
-            </AppLayout>
+            <PageBackground backgroundClass="colab-bg">
+              <AppLayout>
+                <Colab />
+              </AppLayout>
+            </PageBackground>
           </CollaboratorRoute>
         } />
+        
         <Route path="/Events" element={
           <ProtectedRoute>
-            <AppLayout>
-              <Events />
-            </AppLayout>
+            <PageBackground backgroundClass="events-bg">
+              <AppLayout>
+                <Events />
+              </AppLayout>
+            </PageBackground>
           </ProtectedRoute>
         } />
 
         <Route path="/Events/:id" element={
           <ProtectedRoute>
-            <AppLayout>
-              <EventDetail />
-            </AppLayout>
+            <PageBackground backgroundClass="events-bg">
+              <AppLayout>
+                <EventDetail />
+              </AppLayout>
+            </PageBackground>
           </ProtectedRoute>
         } />
+        
         <Route path="/AdminUsers" element={
           <AdminRoute>
-            <AppLayout>
-              <AdminUsers />
-            </AppLayout>
+            <PageBackground backgroundClass="admin-bg">
+              <AppLayout>
+                <AdminUsers />
+              </AppLayout>
+            </PageBackground>
           </AdminRoute>
         } />
+        
         <Route path="/AdminCollaborators" element={
           <AdminRoute>
-            <AppLayout>
-              <AdminCollaborators />
-            </AppLayout>
+            <PageBackground backgroundClass="admin-bg">
+              <AppLayout>
+                <AdminCollaborators />
+              </AppLayout>
+            </PageBackground>
           </AdminRoute>
         } />
+        
         <Route path="/AdminEvents" element={
           <AdminRoute>
-            <AppLayout>
-              <AdminEvents />
-            </AppLayout>
+            <PageBackground backgroundClass="admin-bg">
+              <AppLayout>
+                <AdminEvents />
+              </AppLayout>
+            </PageBackground>
           </AdminRoute>
         } />
       </Routes>

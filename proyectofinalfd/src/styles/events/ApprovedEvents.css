@@ -24,3 +24,16 @@
   border-bottom: 1px solid #f1f5f9;
   font-size: 14px;
 }
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .approved-events {
+    padding: 8px;
+  }
+
+  .approved-th,
+  .approved-td {
+    padding: 8px;
+    font-size: 12px;
+  }
+}

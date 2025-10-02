@@ -1,5 +1,4 @@
 :root {
-  --outer-background: #0A192F;
   --card-background: #FFFFFF;
   --gradient-start: #5054A7;
   --gradient-end: #1DD4B5;
@@ -44,7 +43,7 @@
   left: 0;
   width: 50%;
   height: 100%;
-  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  background: url("/Overlay.png");
   color: var(--hero-text);
   display: flex;
   flex-direction: column;
@@ -249,7 +248,7 @@
     width: 100% !important;
     height: 200px;
     left: 0 !important;
-    border-radius: 20px 20px 0 0 !important;
+    border-radius: 20px 20px 0 0 ;
   }
 
   .form-panel {

@@ -192,3 +192,83 @@
 .detail-link:hover {
   text-decoration: underline;
 }
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .events-page {
+    padding: 16px;
+    margin: 16px;
+    border-radius: 12px;
+  }
+
+  .events-form {
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .events-input {
+    min-width: 180px;
+    padding: 10px 12px;
+  }
+
+  .btn {
+    padding: 6px 16px;
+    font-size: 0.8rem;
+  }
+
+  .table {
+    min-width: 100%;
+  }
+
+  .th,
+  .td {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .map {
+    height: 300px;
+    margin-top: 24px;
+  }
+
+  .detail {
+    padding: 16px;
+    margin: 16px;
+    border-radius: 12px;
+  }
+
+  .detail-title {
+    font-size: 18px;
+  }
+
+  .detail-content {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .events-page {
+    padding: 12px;
+    margin: 12px;
+  }
+
+  .events-form {
+    flex-direction: column;
+  }
+
+  .events-input {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .th,
+  .td {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  .detail {
+    padding: 12px;
+    margin: 12px;
+  }
+}

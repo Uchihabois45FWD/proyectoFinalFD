@@ -22,3 +22,26 @@
     color: #6b7280;
     margin-top: 4px;
 }
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        padding: 8px 0;
+    }
+
+    .stat-card {
+        padding: 12px;
+    }
+
+    .stat-card__value {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats {
+        grid-template-columns: 1fr;
+    }
+}

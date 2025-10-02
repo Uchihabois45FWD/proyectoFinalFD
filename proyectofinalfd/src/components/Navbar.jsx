@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { authService } from '../services/AuthServices'
 import '../styles/Navbar.css'
@@ -10,15 +10,29 @@ function Navbar() {
   const isAdmin = authService.isAdmin()
   const isUser = authService.isUser()
   const isColab = authService.isCollaborator()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const handleLogout = () => {
     authService.logout()
     navigate('/')
   }
 
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen)
+  }
+
   return (
     <nav className="navbar">
-      <div className="navbar__links">
+      <div className="navbar__brand">
+        <span className="navbar__title">App</span>
+        <div className="navbar__hamburger" onClick={toggleMobileMenu} aria-label="Toggle menu" role="button" tabIndex={0}>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+
+      <div className={`navbar__links ${mobileMenuOpen ? 'navbar__mobile-menu open' : ''}`}>
         {isAuth && (
           <>
             {isAdmin && (

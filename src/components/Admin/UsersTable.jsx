@@ -1,3 +1,6 @@
+import React, { useState, useEffect, useMemo } from 'react'
+import axios from 'axios'
+
 /**
  * Componente UsersTable - Muestra una tabla de usuarios con funcionalidad de edición y eliminación
  * Permite a los administradores gestionar los usuarios del sistema
@@ -18,7 +21,7 @@ function UsersTable() {
    */
   useEffect(() => {
     let mounted = true
-    
+
     // Función asíncrona para cargar los usuarios
     const load = async () => {
       try {
@@ -35,13 +38,13 @@ function UsersTable() {
         if (mounted) setLoading(false)
       }
     }
-    
+
     // Ejecuta la carga de usuarios
     load()
-    
+
     // Función de limpieza que se ejecuta al desmontar el componente
-    return () => { 
-      mounted = false 
+    return () => {
+      mounted = false
     }
   }, [])
 
@@ -55,7 +58,7 @@ function UsersTable() {
     // Inicia el estado de carga y limpia errores previos
     setLoading(true)
     setError(null)
-    
+
     try {
       // Realiza la petición GET para obtener los usuarios actualizados
       const res = await axios.get('http://localhost:3001/users')
@@ -80,23 +83,23 @@ function UsersTable() {
       // Solicita el nuevo nombre del usuario
       const name = window.prompt('Nuevo nombre:', u.name)
       if (name === null) return  // Usuario canceló la operación
-      
+
       // Solicita el nuevo rol del usuario
       const role = window.prompt("Rol ('admin','user' o 'colab'):", u.role)
       if (role === null) return  // Usuario canceló la operación
-      
+
       // Valida que el rol sea uno de los permitidos
       if (!['admin', 'user', 'colab'].includes(role)) {
         alert("Rol inválido. Use 'admin', 'user' o 'colab'.")
         return
       }
-      
+
       // Marca el usuario como ocupado para deshabilitar los botones
       setBusyId(u.id)
-      
+
       // Envía la petición PATCH para actualizar el usuario
       await axios.patch(`http://localhost:3001/users/${u.id}`, { name, role })
-      
+
       // Recarga la lista de usuarios para reflejar los cambios
       await reload()
     } catch (e) {
@@ -116,14 +119,14 @@ function UsersTable() {
     // Solicita confirmación antes de eliminar
     const ok = window.confirm(`¿Eliminar usuario ${u.name}?`)
     if (!ok) return  // Usuario canceló la operación
-    
+
     try {
       // Marca el usuario como ocupado para deshabilitar los botones
       setBusyId(u.id)
-      
+
       // Envía la petición DELETE para eliminar el usuario
       await axios.delete(`http://localhost:3001/users/${u.id}`)
-      
+
       // Recarga la lista de usuarios para reflejar los cambios
       await reload()
     } catch (e) {
@@ -137,7 +140,7 @@ function UsersTable() {
 
   // Muestra un indicador de carga mientras se cargan los datos
   if (loading) return <div className="users-loading">Cargando usuarios...</div>
-  
+
   // Muestra un mensaje de error si ocurrió un problem al cargar los datos
   if (error) return <div className="users-error">{error}</div>
 
@@ -146,7 +149,7 @@ function UsersTable() {
     <section className="users-section">
       {/* Título de la sección */}
       <h2 className="users-section-title"> Usuarios</h2>
-      
+
       {/* Contenedor de la tabla con estilo de desplazamiento */}
       <div className="table-wrapper">
         <table className="table">
@@ -158,7 +161,7 @@ function UsersTable() {
               ))}
             </tr>
           </thead>
-          
+
           {/* Cuerpo de la tabla */}
           <tbody>
             {/* Mapea cada usuario a una fila de la tabla */}
@@ -166,35 +169,35 @@ function UsersTable() {
               <tr key={u.id}>
                 {/* Celda de ID */}
                 <td className="td">{u.id}</td>
-                
+
                 {/* Celda de nombre */}
                 <td className="td">{u.name}</td>
-                
+
                 {/* Celda de correo electrónico */}
                 <td className="td">{u.email}</td>
-                
+
                 {/* Celda de rol */}
                 <td className="td">{u.role}</td>
-                
+
                 {/* Celda de fecha de creación formateada */}
                 <td className="td">{new Date(u.createdAt).toLocaleString()}</td>
-                
+
                 {/* Celda de acciones */}
                 <td className="td">
                   {/* Botón para editar el usuario */}
-                  <button 
-                    onClick={() => handleEdit(u)} 
-                    disabled={busyId===u.id} 
+                  <button
+                    onClick={() => handleEdit(u)}
+                    disabled={busyId===u.id}
                     className="btn"
                     title="Editar usuario"
                   >
                     Editar
                   </button>
-                  
+
                   {/* Botón para eliminar el usuario */}
-                  <button 
-                    onClick={() => handleDelete(u)} 
-                    disabled={busyId===u.id} 
+                  <button
+                    onClick={() => handleDelete(u)}
+                    disabled={busyId===u.id}
                     className="btn btn--danger"
                     title="Eliminar usuario"
                   >
@@ -209,3 +212,5 @@ function UsersTable() {
     </section>
   )
 }
+
+export default UsersTable
